@@ -1,0 +1,21 @@
+OrderId,OrderDate,CustomerId,ProductId,ProductName,Category,Quantity,UnitPrice,Country
+1001,2024-01-05,C001,P010,Contoso Wireless Mouse,Accessories,3,19.99,United States
+1002,2024-01-07,C002,P021,Contoso 27in Monitor,Displays,1,229.00,United Kingdom
+1003,2024-01-11,C003,P010,Contoso Wireless Mouse,Accessories,2,19.99,Germany
+1004,2024-01-15,C001,P034,Contoso Mechanical Keyboard,Accessories,1,79.50,United States
+1005,2024-02-02,C004,P021,Contoso 27in Monitor,Displays,2,229.00,France
+1006,2024-02-09,C005,P045,Contoso USB-C Dock,Accessories,1,149.00,United States
+1007,2024-02-18,C002,P052,Contoso Laptop 14,Computers,1,1099.00,United Kingdom
+1008,2024-03-03,C006,P010,Contoso Wireless Mouse,Accessories,5,19.99,Canada
+1009,2024-03-12,C003,P052,Contoso Laptop 14,Computers,1,1099.00,Germany
+1010,2024-03-21,C007,P034,Contoso Mechanical Keyboard,Accessories,2,79.50,Australia
+1011,2024-04-04,C004,P045,Contoso USB-C Dock,Accessories,3,149.00,France
+1012,2024-04-16,C008,P021,Contoso 27in Monitor,Displays,1,229.00,United States
+1013,2024-05-01,C005,P061,Contoso Webcam HD,Accessories,2,59.00,United States
+1014,2024-05-14,C001,P052,Contoso Laptop 14,Computers,1,1099.00,United States
+1015,2024-06-08,C009,P010,Contoso Wireless Mouse,Accessories,4,19.99,Japan
+1016,2024-06-22,C006,P061,Contoso Webcam HD,Accessories,1,59.00,Canada
+1017,2024-07-03,C002,P034,Contoso Mechanical Keyboard,Accessories,1,79.50,United Kingdom
+1018,2024-07-19,C010,P052,Contoso Laptop 14,Computers,2,1099.00,United States
+1019,2024-08-05,C007,P045,Contoso USB-C Dock,Accessories,1,149.00,Australia
+1020,2024-08-27,C003,P021,Contoso 27in Monitor,Displays,3,229.00,Germany
