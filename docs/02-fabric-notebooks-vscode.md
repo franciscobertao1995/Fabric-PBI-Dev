@@ -162,4 +162,4 @@ drop rows with a null CustomerId, and write the result to silver_sales.
 ## Where to go next
 
 - **[Section 3 — Fabric Agentic Development](03-fabric-agentic-development.md)** — orchestrate whole solutions with AI.
-- **[Contoso end-to-end demo](../demo/README.md)** — build a medallion lakehouse with these tools.
+- **[AdventureWorks end-to-end demo](../demo/README.md)** — build a medallion lakehouse with these tools.

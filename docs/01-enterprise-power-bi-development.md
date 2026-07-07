@@ -460,4 +460,4 @@ Every change an agent makes lands as a **TMDL text diff** you can review in Git 
 
 - **[Section 2 — Develop Fabric notebooks in VS Code](02-fabric-notebooks-vscode.md)**
 - **[Section 3 — Fabric Agentic Development](03-fabric-agentic-development.md)**
-- **[Contoso end-to-end demo](../demo/README.md)** — put all of this together on one scenario.
+- **[AdventureWorks end-to-end demo](../demo/README.md)** — put all of this together on one scenario.

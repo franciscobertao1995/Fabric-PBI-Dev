@@ -99,5 +99,5 @@ Agentic development is powerful — apply the same guardrails the official docs 
 
 ## Where to go next
 
-- **[Contoso end-to-end demo](../demo/README.md)** — run all three sections against a single scenario.
+- **[AdventureWorks end-to-end demo](../demo/README.md)** — run all three sections against a single scenario.
 - Back to **[Section 1 — Enterprise Power BI Development](01-enterprise-power-bi-development.md)** or **[Section 2 — Notebooks in VS Code](02-fabric-notebooks-vscode.md)**.

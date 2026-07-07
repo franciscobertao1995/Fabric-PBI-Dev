@@ -1,141 +1,76 @@
-# Contoso end-to-end demo: build an enterprise Fabric solution
+# AdventureWorks end-to-end demo
 
-This demo walks a single, realistic scenario through **all three sections** of this repository so your customers can test every capability on one storyline — then adapt each step to one of **their own** datasets.
+Build a governed, enterprise-grade sales-analytics solution on Microsoft Fabric — from raw files to an optimized, documented Power BI semantic model — with AI assistance at every step.
 
-> **Scenario — Contoso Retail.** Contoso wants a governed sales-analytics solution: raw sales files land in a lakehouse, are cleaned and modeled through a medallion architecture, surfaced in a Git-versioned Power BI semantic model and report, and the whole thing is built with AI assistance and shipped through pull requests.
+> **Scenario — AdventureWorks reseller sales.** The tab-separated CSVs in [`data/`](data/) (Sales, Targets, Product, Reseller, Salesperson, Region, and a salesperson↔region bridge) land in a **Bronze** lakehouse, are cleaned and conformed through a **Silver** layer, and are shaped into a **Gold** star schema. The Gold model is surfaced in a Git-versioned Power BI semantic model (PBIP + TMDL) and continuously improved with GitHub Copilot.
+
+This demo is organized into three phases. Do them in order, or jump to the one you want to showcase.
+
+| Phase | Guide | What you do |
+|-------|-------|-------------|
+| 1 | [Initial Architecture Setup](01-initial-architecture-setup.md) | Deploy the medallion lakehouses and scaffold empty notebooks with **Skills for Fabric** (agentic). |
+| 2 | [Notebook Development](02-notebook-development.md) | Fill in the Bronze → Silver → Gold notebooks in VS Code (local vs VFS mode) with the **FabricNotebook** agent. |
+| 3 | [Power BI Development & Optimization](03-powerbi-development-optimization.md) | Build the model in Power BI Desktop, save as **PBIP + TMDL**, then model, optimize, document, and test with the **Power BI Modeling MCP Server**. |
+
+## The end-to-end picture
 
 ```mermaid
 flowchart LR
-    subgraph Sec3[Section 3 · Agentic]
-      A[Copilot + Skills for Fabric<br/>plan & scaffold]
+    CSV["data/*.csv<br/>(tab-separated)"] --> P1
+
+    subgraph P1["Phase 1 · Initial Architecture Setup"]
+        direction TB
+        SK["Skills for Fabric<br/>(agentic scaffold)"] --> LH["aw_bronze · aw_silver · aw_gold<br/>lakehouses + empty notebooks"]
     end
-    subgraph Sec2[Section 2 · Notebooks in VS Code]
-      B[Bronze] --> C[Silver] --> D[Gold]
+
+    subgraph P2["Phase 2 · Notebook Development"]
+        direction LR
+        B["Bronze<br/>ingest raw CSVs"] --> S["Silver<br/>clean & conform"] --> G["Gold<br/>star schema"]
     end
-    subgraph Sec1[Section 1 · Enterprise Power BI]
-      E[PBIP + TMDL model] --> F[Report]
-      F --> G[Git integration + PR]
+
+    subgraph P3["Phase 3 · Power BI Development & Optimization"]
+        direction TB
+        PBIP["Power BI Desktop<br/>→ PBIP + TMDL"] --> MCP["Model · Optimize · Document · Test<br/>(Copilot + Modeling MCP)"]
+        MCP --> PR["Git commit → Pull Request"]
     end
-    A --> B
-    D --> E
+
+    P1 --> P2 --> P3
 ```
 
----
+## The target star schema (Gold)
+
+The Gold layer implements a classic star schema. Full column-level detail and modeling notes are in [`data/README.md`](data/README.md).
+
+```mermaid
+erDiagram
+    Date ||--o{ Sales : OrderDate
+    Product ||--o{ Sales : ProductKey
+    Reseller ||--o{ Sales : ResellerKey
+    Salesperson ||--o{ Sales : EmployeeKey
+    Region ||--o{ Sales : SalesTerritoryKey
+
+    Date ||--o{ Targets : TargetMonth
+    Salesperson ||--o{ Targets : EmployeeID
+
+    Salesperson ||--o{ SalespersonRegion : EmployeeKey
+    Region ||--o{ SalespersonRegion : SalesTerritoryKey
+```
 
 ## Before you start
 
-Complete the [prerequisites in the root README](../README.md#prerequisites-at-a-glance). At minimum you need a Fabric-enabled workspace, VS Code with GitHub Copilot Chat, Power BI Desktop, Node.js, the Azure CLI, and an Azure DevOps or GitHub repo.
+Complete the [prerequisites in the root README](../README.md#prerequisites-at-a-glance): a Fabric-enabled workspace, VS Code with GitHub Copilot Chat, Power BI Desktop, Node.js, the Azure CLI, and an Azure DevOps or GitHub repo.
 
-Sample data and a prompt library are provided:
+- **Sample data:** the tab-separated CSVs in [`data/`](data/) — see [`data/README.md`](data/README.md) for the source (Kaggle / PL-300 lab) and format details.
+- **Bring your own scenario:** anywhere you see AdventureWorks sales data, substitute one of your own extracts and adjust column names. The workflow stays identical.
 
-- [`data/contoso_sales_sample.csv`](data/contoso_sales_sample.csv) — a tiny sales extract to ingest.
-- [`prompts/`](prompts/) — copy-paste prompts for each stage.
+## What this demo proves
 
-**Bring your own scenario:** anywhere you see Contoso sales data, substitute one of your own CSV/Parquet extracts and adjust column names. The steps stay identical.
-
----
-
-## Stage 0 — Set up source control (Section 1)
-
-Establish the enterprise backbone first: **Git**.
-
-1. Create an empty repo in **Azure DevOps** or **GitHub**.
-2. In your Fabric workspace: **Workspace settings → Git integration**, connect your provider, pick a branch and folder, and **Connect and sync**.
-   → Full steps: [1.1 Source control with Git integration](../docs/01-enterprise-power-bi-development.md#11-source-control-with-git-integration).
-3. Clone the repo locally and open it in VS Code.
-
-✅ *Outcome:* your workspace is versioned; every later change becomes a reviewable commit.
-
----
-
-## Stage 1 — Scaffold the solution with an agent (Section 3)
-
-Let AI plan and create the Fabric items.
-
-1. Install **Skills for Fabric** and authenticate:
-   ```bash
-   git clone https://github.com/microsoft/skills-for-fabric.git
-   az login
-   az account get-access-token --resource https://api.fabric.microsoft.com
-   ```
-   ```text
-   /plugin marketplace add microsoft/skills-for-fabric
-   /plugin install fabric-skills@fabric-collection
-   ```
-   → Details: [3.2 Setup](../docs/03-fabric-agentic-development.md#setup-recap).
-2. Drive the scaffold with a prompt (see [`prompts/01-agentic-scaffold.md`](prompts/01-agentic-scaffold.md)):
-   ```text
-   Use Microsoft Fabric skills to design a medallion architecture for Contoso
-   retail sales. Create Bronze, Silver, and Gold lakehouses in my workspace and
-   outline the notebooks needed to ingest, clean, and aggregate the data.
-   ```
-
-✅ *Outcome:* Bronze/Silver/Gold lakehouses exist and you have a plan for the notebooks.
-
----
-
-## Stage 2 — Build the medallion lakehouse in VS Code (Section 2)
-
-Author and run the transformation notebooks.
-
-1. Install the [Fabric Data Engineering VS Code extension](https://marketplace.visualstudio.com/items?itemName=SynapseVSCode.synapse) and select your workspace.
-   → [2.1 Get started](../docs/02-fabric-notebooks-vscode.md#21-get-started-with-the-extension).
-2. Upload [`data/contoso_sales_sample.csv`](data/contoso_sales_sample.csv) to the **Bronze** lakehouse `Files/raw/` area.
-3. Open **GitHub Copilot Chat**, select **Local** session type and the **FabricNotebook** agent, and generate the three notebooks (see [`prompts/02-notebooks.md`](prompts/02-notebooks.md)):
-   - **Bronze:** load the raw CSV into a Delta table `bronze_sales`.
-   - **Silver:** clean/typecast/deduplicate into `silver_sales`.
-   - **Gold:** aggregate into `gold_sales_by_month` and `gold_sales_by_product`.
-   → [2.4 Fabric Notebook custom agent](../docs/02-fabric-notebooks-vscode.md#24-the-fabric-notebook-custom-agent).
-4. Run the notebooks on remote Spark and verify the Gold tables.
-
-✅ *Outcome:* a working Bronze → Silver → Gold pipeline over Contoso sales.
-
----
-
-## Stage 3 — Model and report in PBIP + TMDL (Section 1)
-
-Turn the Gold layer into a governed semantic model.
-
-1. In Power BI Desktop, connect to the **Gold** lakehouse tables and build a starter model + report.
-2. Enable **Power BI Project (.pbip)** and **Store semantic model using TMDL format**, then **Save as → Power BI Project**.
-   → [1.2 PBIP + TMDL](../docs/01-enterprise-power-bi-development.md#12-the-pbip-folder-structure-and-tmdl-files).
-3. Open the PBIP folder in VS Code (install the [TMDL extension](https://marketplace.visualstudio.com/items?itemName=analysis-services.TMDL)).
-4. Install and connect the **Power BI Modeling MCP Server**:
-   - Install the [VS Code extension](https://aka.ms/powerbi-modeling-mcp-vscode).
-   - In Copilot Chat: `Open semantic model from PBIP folder '<path>/Contoso.SemanticModel/definition'`.
-   → [1.4 Power BI Modeling MCP Server](../docs/01-enterprise-power-bi-development.md#14-the-power-bi-modeling-mcp-server).
-5. Use Copilot to enrich the model (see [`prompts/03-model-optimize-document.md`](prompts/03-model-optimize-document.md)):
-   - Add measures (Total Sales, YoY %, Rolling 3-month average).
-   - Add descriptions/notes to every table, column, and measure.
-   - Enforce naming conventions and refactor time-intelligence into a calculation group.
-   - Generate model documentation as Markdown.
-
-✅ *Outcome:* an optimized, documented semantic model stored as reviewable TMDL text.
-
----
-
-## Stage 4 — Ship it through a pull request (Sections 1 & 3)
-
-1. In VS Code, review the **TMDL diff** for the model changes.
-2. Commit on a feature branch and **push**.
-3. Open a **pull request**; if you configured a [PBIP build pipeline](https://learn.microsoft.com/power-bi/developer/projects/projects-build-pipelines), let the quality gate run.
-4. Merge to `main`; in the Fabric workspace, use **Source control → Update all** to bring the change into the shared workspace.
-   → [The daily inner loop](../docs/01-enterprise-power-bi-development.md#the-daily-inner-loop).
-
-✅ *Outcome:* an end-to-end, AI-assisted, source-controlled Fabric solution — reviewed and deployed like software.
-
----
-
-## What the customer just proved
-
-| Capability | Where it happened |
-|-----------|-------------------|
-| Git integration & PR-based delivery | Stages 0 & 4 |
-| PBIP folder structure + TMDL | Stage 3 |
-| Skills for Fabric in VS Code | Stages 1 & 2 |
-| Power BI Modeling MCP Server | Stage 3 |
-| GitHub Copilot on PBIP | Stage 3 |
-| Fabric notebooks in VS Code | Stage 2 |
-| Agentic end-to-end build | Stages 1–4 |
-
-Adapt any stage to the customer's real data and repeat — the workflow is identical.
+| Capability | Where it happens |
+|-----------|------------------|
+| Agentic scaffolding with Skills for Fabric | [Phase 1](01-initial-architecture-setup.md) |
+| Medallion lakehouse architecture (Bronze/Silver/Gold) | Phases [1](01-initial-architecture-setup.md) & [2](02-notebook-development.md) |
+| Fabric notebooks in VS Code (local & VFS mode) | [Phase 2](02-notebook-development.md) |
+| FabricNotebook custom agent | [Phase 2](02-notebook-development.md) |
+| PBIP folder structure + TMDL | [Phase 3](03-powerbi-development-optimization.md) |
+| Power BI Modeling MCP Server + Copilot | [Phase 3](03-powerbi-development-optimization.md) |
+| Git integration & PR-based delivery | Phases [1](01-initial-architecture-setup.md) & [3](03-powerbi-development-optimization.md) |

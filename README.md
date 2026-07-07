@@ -20,7 +20,7 @@ Data platform teams, BI developers, and data engineers who want to move from *ad
 
 ## Try it end-to-end
 
-Follow the [**Contoso end-to-end demo**](demo/README.md) to test all three capabilities on a single, realistic scenario — from a Git-versioned semantic model, to a medallion lakehouse built with notebooks, to an agent that assembles the whole solution. You can adapt each step to one of your own datasets.
+Follow the [**AdventureWorks end-to-end demo**](demo/README.md) to test all three capabilities on a single, realistic scenario — from a Git-versioned semantic model, to a medallion lakehouse built with notebooks, to an agent that assembles the whole solution. You can adapt each step to one of your own datasets.
 
 ---
 
