@@ -75,17 +75,23 @@ Files/raw/SalespersonRegion.csv
 
 Create the three notebooks as **empty placeholders** — you fill them in during [Phase 2](02-notebook-development.md).
 
+| Notebook | Default lakehouse | Additional lakehouse | Reason |
+|---|---|---|---|
+| `01_bronze_ingest` | `aw_bronze` | — | Reads from `Files/raw/` (Bronze files) and writes Bronze tables; no upstream lakehouse needed. |
+| `02_silver_transform` | `aw_silver` | `aw_bronze` | Writes to Silver tables (default = `Tables/`); reads Bronze tables by name. |
+| `03_gold_star_schema` | `aw_gold` | `aw_silver` | Writes to Gold tables (default = `Tables/`); reads Silver tables by name. |
+
 ```text
-Create three empty PySpark notebooks in my Fabric workspace and attach aw_bronze
-as the default lakehouse:
-1. 01_bronze_ingest
-2. 02_silver_transform
-3. 03_gold_star_schema
+Create three empty PySpark notebooks in my Fabric workspace with the following
+lakehouse attachments:
+1. 01_bronze_ingest — default lakehouse: aw_bronze
+2. 02_silver_transform — default lakehouse: aw_silver, additional lakehouse: aw_bronze
+3. 03_gold_star_schema — default lakehouse: aw_gold, additional lakehouse: aw_silver
 Do not add transformation code yet — just create the notebooks with a single
 title markdown cell describing each layer's purpose.
 ```
 
-✅ *Outcome:* three empty, named notebooks wired to the lakehouse, ready for development.
+✅ *Outcome:* three empty, named notebooks each wired to their output lakehouse as default and their source lakehouse as an additional attachment, ready for development.
 
 ---
 
