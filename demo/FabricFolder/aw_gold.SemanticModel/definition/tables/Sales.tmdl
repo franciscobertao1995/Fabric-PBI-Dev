@@ -1,4 +1,4 @@
-/// Sales fact: one row per reseller sales order line, with derived profit. Grain = sales order line.
+/// Sales fact: one row per reseller sales order line, with deriveded profit. Grain = sales order line.
 table 'Sales'
 
 	/// Total revenue from reseller sales in the filter context. SUM of the Sales Amount column.
