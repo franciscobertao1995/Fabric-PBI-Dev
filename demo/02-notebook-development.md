@@ -31,197 +31,190 @@ The extension offers two ways to edit notebooks ([source](https://learn.microsof
 
 ## Working in Local Mode: Complete Workflow
 
-### Step 1: Configure Local Work Folder
+> **Source:** [Create and manage Fabric notebooks in VS Code](https://learn.microsoft.com/en-us/fabric/data-engineering/author-notebook-with-vs-code)
 
-Before downloading any notebooks, set up where the extension will store your local copies.
+### Understanding notebook states
 
-1. Open the **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-2. Run: **`Fabric Data Engineering: Set Local Work Folder`**
-3. Choose or create a folder (e.g., `C:\dev\FabricLocal` or `~/dev/FabricLocal`)
+The notebook list in the Fabric Data Engineering view shows the sync state of each notebook at a glance:
 
-This folder will contain subfolders organized by **Workspace ID** → **Artifact Type** → **Artifact ID** → **Artifact Name**.
+![Notebook list showing the different states](media/vs-code/list-notebook.png)
 
-### Step 2: Connect to Your Fabric Workspace
-
-1. Click the **Fabric Data Engineering** icon in the Activity Bar (left sidebar)
-2. Click **Select Workspace** at the top of the Fabric view
-3. Sign in if prompted, then choose your workspace from the list
-4. The extension will display all artifacts in your workspace (Notebooks, Lakehouses, Environments, etc.)
-
-### Step 3: Download a Notebook
-
-Download notebooks from Fabric to your local folder for editing:
-
-1. In the **Fabric Data Engineering** view, expand your workspace
-2. Expand the **SynapseNotebook** section to see all notebooks
-3. Right-click on the notebook you want to edit (e.g., `01_bronze_ingest`)
-4. Select **Download**
-
-The extension will:
-- Download the notebook to your local work folder
-- Create the folder structure: `{WorkspaceId}/SynapseNotebook/{ArtifactId}/{NotebookName}/`
-- Add the `.ipynb` file and a `builtin/` folder for notebook resources
-
-### Step 4: Open the Notebook in VS Code
-
-1. After downloading, right-click the notebook in the Fabric view again
-2. Select **Add to Workspace**
-3. Choose:
-   - **Add to Current Workspace** (if you have a workspace open)
-   - **Open in New Window** (to work in a dedicated window)
-
-The notebook folder will appear in your VS Code Explorer, and the `.ipynb` file will open in the notebook editor.
-
-### Step 5: Configure the Fabric Runtime Kernel
-
-To run notebook cells against your Fabric Spark environment, you need to select the correct kernel:
-
-1. With the notebook open, look at the **kernel selector** in the top-right corner
-2. Click the kernel name (it may say "Select Kernel" or show a different kernel)
-3. Choose **Microsoft Fabric Runtime** from the list
-4. Select the language variant:
-   - **PySpark** for Python-based Spark notebooks (most common)
-   - **Python** for pure Python (no Spark context)
-   - **Scala** for Scala-based Spark code
-   - **SparkR** for R-based Spark code
-   - **SQL** for Spark SQL notebooks
-
-**For this demo, select: `Microsoft Fabric Runtime - PySpark`**
-
-This kernel connects to your **remote Fabric workspace** Spark environment — no local Spark installation needed.
-
-### Step 6: Develop with GitHub Copilot
-
-Now you're ready to use the **FabricNotebook** custom agent to author code:
-
-1. Open **GitHub Copilot Chat** (icon in the Activity Bar, or `Ctrl+Shift+I`)
-2. In the chat panel, configure:
-   - **Session type**: Select **Local** (the FabricNotebook agent requires Local mode)
-   - **Agent selector**: Choose **@FabricNotebook**
-3. Send prompts describing what you want the notebook to do
-
-**Example prompt (for `01_bronze_ingest`):**
-
-```text
-In this notebook, ingest the tab-separated CSVs from Files/raw/ in the default
-lakehouse into Bronze Delta tables. For each of Sales, Targets, Product, Reseller,
-Salesperson, Region, and SalespersonRegion, read with sep="\t", header=true, and
-inferSchema=false (keep everything as strings at Bronze). Write each to a Delta
-table named bronze_<name> (overwrite). Add an ingestion timestamp column
-_ingested_at. Show the row count for each table when done.
-```
-
-**What the agent will do:**
-- Generate code cells using Fabric-specific APIs (`notebookutils`, PySpark on the built-in `spark` session)
-- Insert cells directly into your open notebook
-- Ask for confirmation before running the cells
-- Use the correct paths for your lakehouses (relative paths for default lakehouse, ABFSS paths for others)
-
-### Step 7: Test and Run Cells Locally
-
-Once the agent inserts code cells, test them against your remote Fabric environment:
-
-1. **Review the generated code** in each cell
-2. Click the **▶ Run** button next to a cell, or press `Shift+Enter`
-3. The cell executes on **remote Fabric Spark** (not a local engine)
-4. View outputs directly below each cell:
-   - DataFrames render as tables
-   - Errors show full stack traces
-   - Print statements and display() outputs appear inline
-
-**If errors occur:**
-- Share the error with the **@FabricNotebook** agent: "Fix the error in Cell 3"
-- The agent will read the cell output, diagnose the issue, and suggest a corrected version
-- Confirm the fix, and the agent will update the cell
-
-**Common debugging workflow:**
-```text
-@FabricNotebook the cell failed with "FileNotFoundError". Check if the path is correct.
-```
-
-The agent will inspect the notebook context and outputs, then propose a fix.
-
-### Step 8: Iterate Until Complete
-
-Continue this cycle:
-1. **Prompt** the agent with next steps or refinements
-2. **Review and run** the generated code
-3. **Debug and fix** any issues with the agent's help
-4. Move on to the next notebook when satisfied
-
-**Tip:** The agent maintains awareness of:
-- Your workspace ID and lakehouse connections
-- Previously generated code in the notebook
-- Available custom libraries in your Environment artifact
-- Existing data in your lakehouses (via discovery tools)
-
-### Step 9: Publish the Notebook Back to Fabric
-
-When your notebook is working correctly, publish it back to the Fabric workspace:
-
-1. **Save your notebook** (`Ctrl+S` / `Cmd+S`)
-2. In the **Fabric Data Engineering** view, find your notebook
-3. Right-click the notebook and select **Publish**
-
-**Before publishing, the extension will:**
-- **Compare local and remote versions** to detect conflicts
-- If both versions have changed, it will **merge changes automatically** (or prompt you to resolve conflicts)
-- Publish the merged version to Fabric
-
-**After publishing:**
-- The remote notebook in Fabric is updated with your changes
-- The `M` (modified) marker disappears from the Fabric view
-- Your notebook is ready to run in the Fabric workspace
-
-**Important:** Publishing only updates the notebook in Fabric — it does **not** commit to Git or create a version in Fabric's built-in source control.
-
-### Step 10: Commit Changes in the Fabric Portal
-
-To version your work in Fabric's Git integration:
-
-1. Open your **Fabric workspace** in a browser
-2. Navigate to **Workspace Settings** → **Git integration**
-3. You'll see uncommitted changes (including your updated notebook)
-4. Click **Source control** to view the changes
-5. Review the diff, add a commit message, and **Commit** the changes
-6. **Push** your commits to the remote Git repository (e.g., Azure DevOps, GitHub)
-
-This creates a proper version history in your Git repository and keeps the Fabric workspace in sync with your repo.
+| Indicator | Color | Meaning |
+|---|---|---|
+| *(no character)* | White | **Default** — exists in the remote workspace, not downloaded locally yet |
+| **M** | Yellow | **Modified** — downloaded and edited locally, changes not yet published |
+| **L** | Green | **Local** — downloaded and in sync with the remote workspace |
+| **C** | Red | **Conflict** — local and remote versions have diverged |
 
 ---
 
-### Local Mode + Git Workflow Summary
+### Step 1: Configure Local Work Folder
+
+Before downloading any notebooks, tell the extension where to store your local copies.
+
+1. Open the **Command Palette** (`Ctrl+Shift+P`)
+2. Run: **`Fabric Data Engineering: Set Local Work Folder`**
+3. Choose or create a folder (e.g., `C:\dev\FabricLocal`)
+
+Downloads will be organized as: `{WorkspaceId}/SynapseNotebook/{ArtifactId}/{NotebookName}/`
+
+### Step 2: Connect to Your Fabric Workspace
+
+1. Click the **Fabric Data Engineering** icon in the Activity Bar
+2. Click **Select Workspace** and sign in if prompted
+3. Choose your workspace — the extension lists all notebooks, lakehouses, and environments
+
+### Step 3: Download a Notebook
+
+Before you can edit a notebook's content, you must download it to VS Code.
+
+1. In the Fabric view, hover over the notebook name — the **Download** icon appears beside it
+
+   ![Download notebook option in VS Code Explorer](media/vs-code/download-notebook.png)
+
+2. Click **Download** — the notebook is saved to your local working directory and its state changes to **L** (green)
+
+### Step 4: Open the Notebook
+
+1. Hover over the downloaded notebook name — several icons appear, including **Open Notebook Folder**
+
+   ![Open Notebook Folder option in VS Code Explorer](media/vs-code/open-notebook.png)
+
+2. Click **Open Notebook Folder** — the folder opens in VS Code Explorer and the `.ipynb` file opens in the editor
+
+### Step 5: Add Fabric Compute (Kernel)
+
+To run cells on remote Spark, select the **Microsoft Fabric Runtime** kernel before running anything.
+
+1. With the notebook open, click the kernel selector in the **top-right corner** of the editor
+2. Choose **Microsoft Fabric Runtime** from the list
+
+   ![Selecting the Microsoft Fabric Runtime kernel in VS Code](media/vs-code/fabric-runtime-kernel.png)
+
+3. Select the language variant:
+
+   | Language | Use when… |
+   |---|---|
+   | **PySpark** | Python + Spark (most common — used in this demo) |
+   | **Python** | Pure Python, no Spark context |
+   | **Spark SQL** | SQL-first notebooks |
+   | **Scala** | Scala Spark code |
+
+> No local Spark installation required. All execution happens on your remote Fabric workspace's Spark cluster.
+
+### Step 6: Develop with GitHub Copilot
+
+Now use the **@FabricNotebook** agent to generate code:
+
+1. Open **GitHub Copilot Chat** (`Ctrl+Shift+I`)
+2. In the chat panel:
+   - **Session type** → **Local**
+   - **Agent** → **@FabricNotebook**
+3. Describe what you want the notebook to do in plain language
+
+The agent will:
+- Insert code cells directly into the open notebook
+- Use the correct lakehouse paths (relative for default, ABFSS for others)
+- Reuse the built-in `spark` session (no `SparkSession.builder` needed)
+- Ask for confirmation before running cells
+
+### Step 7: Test and Run Cells
+
+1. Review the generated code in each cell
+2. Press `Shift+Enter` or click **▶ Run** to execute on remote Spark
+3. Outputs appear inline — DataFrames as tables, errors with full stack traces
+
+**Debugging with the agent:**
+```text
+@FabricNotebook the cell failed with "AnalysisException: column not found". Fix it.
+```
+The agent reads cell outputs directly, diagnoses the issue, and proposes a corrected cell.
+
+### Step 8: Publish Local Changes to the Remote Workspace
+
+When your notebook is working correctly, push it back to Fabric.
+
+1. Hover over the notebook name in the Fabric view — the **Publish** icon appears
+
+   ![Publish notebook option in VS Code Explorer](media/vs-code/publish-notebook.png)
+
+2. Click **Publish** — the remote workspace is updated with your local changes
+   - If local changes create merge conflicts, you are prompted to resolve them first
+
+3. If a colleague has the same notebook open in the Fabric portal, they receive an **Accept / Reject** prompt:
+
+   ![Dialog box notifying portal users of an external edit from VS Code](media/vs-code/publish-notebook-portal.png)
+
+   - **Accept** → your VS Code changes are saved in the workspace
+   - **Reject** → your VS Code changes are ignored
+
+> After publishing, the **M** marker disappears and the notebook returns to **L** state.
+
+### Step 9: Pull Changes from the Remote Workspace
+
+If someone edits the notebook in the Fabric portal while you have a local copy, pull their changes before continuing.
+
+1. Hover over the notebook name — click the **Update Notebook** icon
+
+   ![Update Notebook option in VS Code Explorer](media/vs-code/update-notebook.png)
+
+2. VS Code pulls the latest remote version and opens the **diff editor** — remote on the left, local on the right:
+
+   ![VS Code diff editor showing remote vs local notebook versions](media/vs-code/update-notebook-diff.png)
+
+3. Edit the left side to resolve any differences
+
+4. When done, click **Merge** in the top-right corner of the diff editor:
+
+   ![Merge button in the VS Code diff editor](media/vs-code/update-notebook-merge.png)
+
+   > Until you click **Merge**, the notebook stays in **Conflict** (**C**, red) state.
+
+### Step 10: Commit Changes in the Fabric Portal
+
+Publishing updates the notebook in Fabric but does not create a Git version. To version-control your work:
+
+1. Open your **Fabric workspace** in a browser
+2. Go to **Workspace Settings** → **Git integration** → **Source control**
+3. Review uncommitted changes, add a commit message, and **Commit**
+4. Push to your remote Git repository (Azure DevOps or GitHub)
+
+---
+
+### Local Mode Workflow Summary
 
 ```mermaid
 graph LR
-    A[Fabric Workspace] -->|Download| B[Local VS Code]
-    B -->|Edit with @FabricNotebook| B
-    B -->|Run & Test| C[Remote Spark]
+    A[Fabric Workspace] -->|3. Download| B[Local VS Code]
+    B -->|6. Edit with @FabricNotebook| B
+    B -->|7. Run & Test on Remote Spark| C[Fabric Spark]
     C -->|View Results| B
-    B -->|Publish| A
-    A -->|Commit & Push| D[Git Repository]
+    B -->|8. Publish| A
+    B -->|9. Pull / Update| A
+    A -->|10. Commit & Push| D[Git Repository]
 ```
 
 **Key advantages:**
 - ✅ Work offline with full Git integration
-- ✅ Use GitHub Copilot's FabricNotebook agent for intelligent code generation
-- ✅ Test on remote Fabric Spark (no local setup)
-- ✅ Safe publish with automatic conflict detection
+- ✅ Intelligent code generation with the @FabricNotebook agent
+- ✅ Test on remote Fabric Spark — no local cluster needed
+- ✅ Conflict detection and diff editor on publish/pull
 - ✅ Version control via Fabric's Git integration
 
 ---
 
 ## VFS Mode (Alternative)
 
-**VFS mode** edits remote files directly, across multiple workspaces:
-1. **Open a Remote Window** → **Open Fabric Data Engineering Workspaces**.
-2. Follow [Manage Fabric workspace with VS Code under VFS mode](https://learn.microsoft.com/fabric/data-engineering/manage-workspace-with-vs-code-vfs-mode).
+**VFS mode** edits remote files directly, across multiple workspaces — no download/publish cycle:
+1. **Open a Remote Window** → **Open Fabric Data Engineering Workspaces**
+2. Follow [Manage Fabric workspace with VS Code under VFS mode](https://learn.microsoft.com/fabric/data-engineering/manage-workspace-with-vs-code-vfs-mode)
 
-**Trade-offs:**
-- ✅ Edit multiple workspaces in one window
-- ✅ No download/publish cycle
-- ❌ No offline editing
-- ❌ Limited Git integration (use Fabric's source control panel instead)
+| | Local mode | VFS mode |
+|---|---|---|
+| Offline editing | ✅ | ❌ |
+| Git integration | ✅ Full | ⚠️ Source control panel only |
+| Multiple workspaces | One at a time | ✅ Multiple in one window |
+| @FabricNotebook agent | ✅ | ✅ |
 
 ---
 
