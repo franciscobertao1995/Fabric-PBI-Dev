@@ -12,6 +12,47 @@ This demo is organized into three phases. Do them in order, or jump to the one y
 | 2 | [Notebook Development](02-notebook-development.md) | Fill in the Bronze → Silver → Gold notebooks in VS Code (local vs VFS mode) with the **FabricNotebook** agent. |
 | 3 | [Power BI Development & Optimization](03-powerbi-development-optimization.md) | Build the model in Power BI Desktop, save as **PBIP + TMDL**, then model, optimize, document, and test with the **Power BI Modeling MCP Server**. |
 
+## Medallion Architecture
+
+```mermaid
+flowchart LR
+    RAW["📁 Raw Data\nGitHub Repo\n(data/*.csv)"]
+
+    subgraph BRONZE["🥉 Bronze — aw_bronze Lakehouse"]
+        direction TB
+        BF["Lakehouse Files\n(raw CSVs)"]
+        BN["📓 01_bronze_ingest"]
+        BT["Lakehouse Tables\n(Delta — raw)"]
+        BF --> BN --> BT
+    end
+
+    subgraph SILVER["🥈 Silver — aw_silver Lakehouse"]
+        direction TB
+        SN["📓 02_silver_transform"]
+        ST["Lakehouse Tables\n(Delta — cleaned)"]
+        SN --> ST
+    end
+
+    subgraph GOLD["🥇 Gold — aw_gold Lakehouse"]
+        direction TB
+        GN["📓 03_gold_star_schema"]
+        GT["Lakehouse Tables\n(Delta — star schema)"]
+        GN --> GT
+    end
+
+    subgraph PBI["📊 Power BI Layer"]
+        direction TB
+        SM["aw_gold\nSemantic Model\n(Direct Lake)"]
+        RPT["Power BI Report"]
+        SM --> RPT
+    end
+
+    RAW -->|"ingest raw files"| BF
+    BT -->|"clean & conform"| SN
+    ST -->|"shape star schema"| GN
+    GT -->|"Direct Lake"| SM
+```
+
 ## The end-to-end picture
 
 ```mermaid
