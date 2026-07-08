@@ -1,11 +1,12 @@
 /// Product dimension: one row per product sold by Adventure Works, including its category hierarchy and standard cost.
 table 'Product'
 
-	/// Number of distinct products in the current filter context.
+	/// Number of distinct products in the filter context. DISTINCTCOUNT of Product Key.
 	measure 'Product Count' = DISTINCTCOUNT('Product'[Product Key])
 		formatString: #,##0
 		displayFolder: Counts
 
+	/// Surrogate key for the product dimension. Foreign key in the Sales fact table.
 	column 'Product Key'
 		dataType: int64
 		isHidden
@@ -43,12 +44,14 @@ table 'Product'
 		summarizeBy: none
 		sourceColumn: category
 
+	/// Hex color code for visual background formatting (used in product KPI tiles and conditional formatting). Hidden; not for end users.
 	column 'Background Color Format'
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: background_color_format
 
+	/// Hex color code for visual font formatting (used in product KPI tiles and conditional formatting). Hidden; not for end users.
 	column 'Font Color Format'
 		dataType: string
 		isHidden

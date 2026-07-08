@@ -1,11 +1,12 @@
 /// Reseller dimension: one row per reseller (distributor) that purchases Adventure Works products, including its geography.
 table 'Reseller'
 
-	/// Number of distinct resellers in the current filter context.
+	/// Number of distinct resellers in the filter context. DISTINCTCOUNT of Reseller Key.
 	measure 'Reseller Count' = DISTINCTCOUNT('Reseller'[Reseller Key])
 		formatString: #,##0
 		displayFolder: Counts
 
+	/// Surrogate key for the reseller dimension. Foreign key in the Sales fact table.
 	column 'Reseller Key'
 		dataType: int64
 		isHidden

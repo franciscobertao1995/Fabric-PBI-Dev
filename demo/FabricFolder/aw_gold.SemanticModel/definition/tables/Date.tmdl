@@ -2,6 +2,7 @@
 table 'Date'
 	dataCategory: Time
 
+	/// Unique calendar date. Primary key of the date dimension; used as the join axis for all date-based relationships.
 	column 'Date'
 		dataType: dateTime
 		formatString: General Date

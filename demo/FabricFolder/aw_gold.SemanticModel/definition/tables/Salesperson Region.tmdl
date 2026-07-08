@@ -1,6 +1,7 @@
 /// Bridge table resolving the many-to-many relationship between salespeople and the sales territories they cover.
 table 'Salesperson Region'
 
+	/// Foreign key linking to the Salesperson dimension. One side of the many-to-many salesperson-territory relationship.
 	column 'Employee Key'
 		dataType: int64
 		isHidden
@@ -8,6 +9,7 @@ table 'Salesperson Region'
 		summarizeBy: none
 		sourceColumn: employee_key
 
+	/// Foreign key linking to the Region dimension. Other side of the many-to-many salesperson-territory relationship.
 	column 'Sales Territory Key'
 		dataType: int64
 		isHidden

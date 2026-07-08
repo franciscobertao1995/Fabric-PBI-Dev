@@ -13,6 +13,8 @@ expression 'DirectLake - aw_gold' =
 		    Source
 	lineageTag: bb12c257-8a1d-424f-b22d-d0fe1f014ea5
 
+annotation PBI_ProTooling = ["TMDL-Extension"]
+
 ref table 'Product'
 ref table 'Reseller'
 ref table 'Salesperson'

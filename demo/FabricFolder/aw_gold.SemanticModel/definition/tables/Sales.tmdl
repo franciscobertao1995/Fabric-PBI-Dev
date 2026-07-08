@@ -1,32 +1,32 @@
 /// Sales fact: one row per reseller sales order line, with derived profit. Grain = sales order line.
 table 'Sales'
 
-	/// Total sales amount (revenue) for the current filter context.
+	/// Total revenue from reseller sales in the filter context. SUM of the Sales Amount column.
 	measure 'Total Sales' = SUM('Sales'[Sales Amount])
 		formatString: \$#,##0.00;(\$#,##0.00)
 		displayFolder: Sales
 
-	/// Total cost of goods sold for the current filter context.
+	/// Total cost of goods sold in the filter context. SUM of the Cost Amount column.
 	measure 'Total Cost' = SUM('Sales'[Cost Amount])
 		formatString: \$#,##0.00;(\$#,##0.00)
 		displayFolder: Sales
 
-	/// Total profit (sales minus cost) for the current filter context.
+	/// Total gross profit in the filter context. SUM of the pre-computed Profit Amount column (Sales Amount minus Cost Amount).
 	measure 'Total Profit' = SUM('Sales'[Profit Amount])
 		formatString: \$#,##0.00;(\$#,##0.00)
 		displayFolder: Profitability
 
-	/// Profit as a percentage of sales.
+	/// Gross profit as a percentage of total revenue. DIVIDE(Total Profit, Total Sales); returns blank when sales is zero.
 	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales])
 		formatString: 0.00%
 		displayFolder: Profitability
 
-	/// Total quantity of items sold.
+	/// Total units sold in the filter context. SUM of the Quantity column across all order lines.
 	measure 'Total Quantity' = SUM('Sales'[Quantity])
 		formatString: #,##0
 		displayFolder: Sales
 
-	/// Number of distinct sales orders.
+	/// Number of distinct sales orders in the filter context. DISTINCTCOUNT of Sales Order Number.
 	measure 'Order Count' = DISTINCTCOUNT('Sales'[Sales Order Number])
 		formatString: #,##0
 		displayFolder: Counts
@@ -37,6 +37,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: sales_order_number
 
+	/// Date the sales order was placed. Foreign key linking to the Date dimension.
 	column 'Order Date'
 		dataType: dateTime
 		isHidden
@@ -44,6 +45,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: order_date
 
+	/// Foreign key linking to the Product dimension.
 	column 'Product Key'
 		dataType: int64
 		isHidden
@@ -51,6 +53,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: product_key
 
+	/// Foreign key linking to the Reseller dimension.
 	column 'Reseller Key'
 		dataType: int64
 		isHidden
@@ -58,6 +61,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: reseller_key
 
+	/// Foreign key linking to the Salesperson dimension.
 	column 'Employee Key'
 		dataType: int64
 		isHidden
@@ -65,6 +69,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: employee_key
 
+	/// Foreign key linking to the Region dimension.
 	column 'Sales Territory Key'
 		dataType: int64
 		isHidden
@@ -72,6 +77,7 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: salesterritory_key
 
+	/// Number of product units sold on this order line.
 	column 'Quantity'
 		dataType: int64
 		isHidden
@@ -79,24 +85,28 @@ table 'Sales'
 		summarizeBy: sum
 		sourceColumn: quantity
 
+	/// List price per unit at the time of sale.
 	column 'Unit Price'
 		dataType: double
 		isHidden
 		summarizeBy: sum
 		sourceColumn: unit_price
 
+	/// Total revenue for this order line (unit price × quantity, after adjustments). Source for Total Sales.
 	column 'Sales Amount'
 		dataType: double
 		isHidden
 		summarizeBy: sum
 		sourceColumn: sales
 
+	/// Total cost of goods sold for this order line. Source for Total Cost.
 	column 'Cost Amount'
 		dataType: double
 		isHidden
 		summarizeBy: sum
 		sourceColumn: cost
 
+	/// Gross profit for this order line (Sales Amount minus Cost Amount), pre-computed in the Gold layer. Source for Total Profit.
 	column 'Profit Amount'
 		dataType: double
 		isHidden
