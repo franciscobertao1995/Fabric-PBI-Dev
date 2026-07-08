@@ -1,0 +1,45 @@
+/// Salesperson dimension: one row per salesperson (employee). Employee ID links to sales targets.
+table 'Salesperson'
+
+	/// Number of distinct salespeople in the current filter context.
+	measure 'Salesperson Count' = DISTINCTCOUNT('Salesperson'[Employee Key])
+		formatString: #,##0
+		displayFolder: Counts
+
+	column 'Employee Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: employee_key
+
+	column 'Employee ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: employee_id
+
+	/// Salesperson full name.
+	column 'Salesperson'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: salesperson
+
+	/// Salesperson job title.
+	column 'Title'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: title
+
+	/// User principal name (email/login) of the salesperson.
+	column 'UPN'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: upn
+
+	partition 'Salesperson' = entity
+		mode: directLake
+		source
+			entityName: dim_salesperson
+			expressionSource: 'DirectLake - aw_gold'

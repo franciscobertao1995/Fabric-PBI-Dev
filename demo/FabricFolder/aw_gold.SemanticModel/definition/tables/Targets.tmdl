@@ -1,0 +1,33 @@
+/// Targets fact: one row per salesperson per month with the assigned sales target. Grain = salesperson + month.
+table 'Targets'
+
+	/// Total sales target for the current filter context.
+	measure 'Total Target' = SUM('Targets'[Target])
+		formatString: \$#,##0.00;(\$#,##0.00)
+		displayFolder: Targets
+
+	column 'Employee ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: employee_id
+
+	column 'Target Month'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: target_month
+
+	column 'Target'
+		dataType: double
+		isHidden
+		summarizeBy: sum
+		sourceColumn: target
+
+	partition 'Targets' = entity
+		mode: directLake
+		source
+			entityName: fact_targets
+			expressionSource: 'DirectLake - aw_gold'

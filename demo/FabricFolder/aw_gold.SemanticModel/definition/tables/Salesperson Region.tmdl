@@ -1,0 +1,22 @@
+/// Bridge table resolving the many-to-many relationship between salespeople and the sales territories they cover.
+table 'Salesperson Region'
+
+	column 'Employee Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: employee_key
+
+	column 'Sales Territory Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: salesterritory_key
+
+	partition 'Salesperson Region' = entity
+		mode: directLake
+		source
+			entityName: bridge_salesperson_region
+			expressionSource: 'DirectLake - aw_gold'

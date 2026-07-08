@@ -1,0 +1,35 @@
+relationship Sales_Product
+	fromColumn: Sales.'Product Key'
+	toColumn: Product.'Product Key'
+
+relationship Sales_Reseller
+	fromColumn: Sales.'Reseller Key'
+	toColumn: Reseller.'Reseller Key'
+
+relationship Sales_Salesperson
+	fromColumn: Sales.'Employee Key'
+	toColumn: Salesperson.'Employee Key'
+
+relationship Sales_Region
+	fromColumn: Sales.'Sales Territory Key'
+	toColumn: Region.'Sales Territory Key'
+
+relationship Sales_Date
+	fromColumn: Sales.'Order Date'
+	toColumn: Date.Date
+
+relationship Targets_Date
+	fromColumn: Targets.'Target Month'
+	toColumn: Date.Date
+
+relationship Targets_Salesperson
+	fromColumn: Targets.'Employee ID'
+	toColumn: Salesperson.'Employee ID'
+
+relationship SalespersonRegion_Salesperson
+	fromColumn: 'Salesperson Region'.'Employee Key'
+	toColumn: Salesperson.'Employee Key'
+
+relationship SalespersonRegion_Region
+	fromColumn: 'Salesperson Region'.'Sales Territory Key'
+	toColumn: Region.'Sales Territory Key'

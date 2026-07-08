@@ -1,0 +1,110 @@
+/// Sales fact: one row per reseller sales order line, with derived profit. Grain = sales order line.
+table 'Sales'
+
+	/// Total sales amount (revenue) for the current filter context.
+	measure 'Total Sales' = SUM('Sales'[Sales Amount])
+		formatString: \$#,##0.00;(\$#,##0.00)
+		displayFolder: Sales
+
+	/// Total cost of goods sold for the current filter context.
+	measure 'Total Cost' = SUM('Sales'[Cost Amount])
+		formatString: \$#,##0.00;(\$#,##0.00)
+		displayFolder: Sales
+
+	/// Total profit (sales minus cost) for the current filter context.
+	measure 'Total Profit' = SUM('Sales'[Profit Amount])
+		formatString: \$#,##0.00;(\$#,##0.00)
+		displayFolder: Profitability
+
+	/// Profit as a percentage of sales.
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales])
+		formatString: 0.00%
+		displayFolder: Profitability
+
+	/// Total quantity of items sold.
+	measure 'Total Quantity' = SUM('Sales'[Quantity])
+		formatString: #,##0
+		displayFolder: Sales
+
+	/// Number of distinct sales orders.
+	measure 'Order Count' = DISTINCTCOUNT('Sales'[Sales Order Number])
+		formatString: #,##0
+		displayFolder: Counts
+
+	/// Sales order number (degenerate dimension).
+	column 'Sales Order Number'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: sales_order_number
+
+	column 'Order Date'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: order_date
+
+	column 'Product Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: product_key
+
+	column 'Reseller Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: reseller_key
+
+	column 'Employee Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: employee_key
+
+	column 'Sales Territory Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: salesterritory_key
+
+	column 'Quantity'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: quantity
+
+	column 'Unit Price'
+		dataType: double
+		isHidden
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+	column 'Sales Amount'
+		dataType: double
+		isHidden
+		summarizeBy: sum
+		sourceColumn: sales
+
+	column 'Cost Amount'
+		dataType: double
+		isHidden
+		summarizeBy: sum
+		sourceColumn: cost
+
+	column 'Profit Amount'
+		dataType: double
+		isHidden
+		summarizeBy: sum
+		sourceColumn: profit
+
+	partition 'Sales' = entity
+		mode: directLake
+		source
+			entityName: fact_sales
+			expressionSource: 'DirectLake - aw_gold'
