@@ -10,7 +10,15 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "dc10a228-9c78-4cc2-895e-028cdfe33367",
 # META       "default_lakehouse_name": "aw_bronze",
-# META       "default_lakehouse_workspace_id": "f6894d78-6eeb-4014-a9ec-3e75ebe36ee8"
+# META       "default_lakehouse_workspace_id": "f6894d78-6eeb-4014-a9ec-3e75ebe36ee8",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "dc10a228-9c78-4cc2-895e-028cdfe33367"
+# META         },
+# META         {
+# META           "id": "097c1a29-7fe3-44c2-9382-e9a691e9a90e"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
@@ -87,7 +95,7 @@ def rename_columns_to_snake_case(df):
     return df
 
 def write_to_silver(df, table_name):
-    """Write a DataFrame to the aw_silver lakehouse."""
+    """Write a DataFrame to the aw_silver lakehouse, replacing existing table and schema."""
     # Use lakehouse-qualified table name to write to aw_silver lakehouse
     # Format: lakehouse_name.table_name
     qualified_table_name = f"aw_silver.{table_name}"
@@ -96,6 +104,7 @@ def write_to_silver(df, table_name):
      .format("delta")
      .mode("overwrite")
      .option("delta.columnMapping.mode", "name")
+     .option("overwriteSchema", "true")  # Allow schema changes on overwrite
      .saveAsTable(qualified_table_name))
     
     print(f"✓ Wrote {df.count():,} rows to {qualified_table_name}")
@@ -361,16 +370,7 @@ print("✓ All Silver tables written to aw_silver lakehouse")
 
 # Show sample from silver_sales with transformed columns
 print("Sample from aw_silver.silver_sales showing transformed data types and column names:\n")
-display(spark.table("aw_silver.silver_sales").select(
-    "salesordernumber",
-    "orderdate", 
-    "productkey",
-    "resellerkey",
-    "quantity",
-    "unit_price",
-    "sales",
-    "cost"
-).limit(5))
+display(spark.table("aw_silver.silver_sales").limit(5))
 
 # METADATA ********************
 
