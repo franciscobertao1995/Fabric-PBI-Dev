@@ -1,0 +1,47 @@
+table silver_region
+	lineageTag: ab3b9f4f-0c69-4507-90ea-bfd02c5c924c
+	sourceLineageTag: [dbo].[silver_region]
+
+	column salesterritorykey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2119bbe7-183f-4234-bf17-3c0d73ef6f5f
+		sourceLineageTag: salesterritorykey
+		summarizeBy: sum
+		sourceColumn: salesterritorykey
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 08fec552-8234-4f0c-9477-0f53bd6879eb
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 1978eb88-0d75-48e0-b9c9-f7a9c173f671
+		sourceLineageTag: country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column group
+		dataType: string
+		lineageTag: 6538a6e7-f20a-4d36-8f66-c3638c41853d
+		sourceLineageTag: group
+		summarizeBy: none
+		sourceColumn: group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition silver_region = entity
+		mode: directLake
+		source
+			entityName: silver_region
+			expressionSource: 'DirectLake - aw_silver'
+
