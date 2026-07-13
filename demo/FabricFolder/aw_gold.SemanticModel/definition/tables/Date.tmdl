@@ -9,7 +9,7 @@ table 'Date'
 		summarizeBy: none
 		sourceColumn: date
 
-	/// Calendar year number...
+	/// Calendar year number (e.g. 2024). Used as the top level of the Calendar hierarchy.
 	column 'Year'
 		dataType: int64
 		formatString: 0
