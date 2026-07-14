@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "pageIndex",
+  "position": {
+    "x": 160,
+    "y": 530,
+    "z": 3,
+    "width": 960,
+    "height": 140
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[{\"textRuns\":[{\"value\":\"Pages\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"13pt\",\"color\":{\"solid\":{\"color\":\"#FFFFFF\"}}}}],\"horizontalTextAlignment\":\"center\"},{\"textRuns\":[{\"value\":\"Sales Overview  ·  Product & Profitability  ·  Salesperson Performance\",\"textStyle\":{\"fontSize\":\"12pt\",\"color\":{\"solid\":{\"color\":\"#7EB4E0\"}}}}],\"horizontalTextAlignment\":\"center\"}]'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

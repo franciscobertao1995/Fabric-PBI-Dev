@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "colChartMarginByCategory",
+  "position": { "x": 430, "y": 20, "z": 2, "width": 390, "height": 330 },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "Product" } },
+                  "Property": "Category"
+                }
+              },
+              "queryRef": "Product.Category"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Property": "Profit Margin %"
+                }
+              },
+              "queryRef": "Sales.Profit Margin %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": { "expr": { "Literal": { "Value": "true" } } },
+            "text": { "expr": { "Literal": { "Value": "'Profit Margin % by Category'" } } }
+          }
+        }
+      ]
+    }
+  }
+}

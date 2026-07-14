@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.2.0/schema.json",
+  "name": "SalespersonPerformance",
+  "displayName": "Salesperson Performance",
+  "displayOption": "FitToPage",
+  "width": 1280,
+  "height": 720,
+  "pageBinding": {
+    "name": "d4e5f6a7b8c9d0e1f2a3",
+    "type": "Default"
+  }
+}

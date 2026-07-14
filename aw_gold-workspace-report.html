@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aw_gold — Workspace Report</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      position: fixed; top: 1rem; right: 1.25rem; z-index: 100;
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 2rem; padding: 0.35rem 0.75rem;
+      font-size: 0.78rem; color: var(--cp-text-muted);
+      cursor: pointer; display: flex; align-items: center; gap: 0.4rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      transition: background 0.15s;
+    }
+    .theme-toggle:hover { background: var(--cp-surface-soft); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 2.5rem 2.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.10);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--cp-accent);
+      border-radius: 16px 16px 0 0;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--cp-accent);
+      margin-bottom: 0.6rem;
+    }
+    .hero h1 {
+      font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em;
+      color: var(--cp-text); line-height: 1.2; margin-bottom: 0.5rem;
+    }
+    .hero h1 code {
+      font-family: Consolas, "Courier New", Courier, monospace;
+      color: var(--cp-accent); font-size: inherit;
+    }
+    .hero-sub {
+      font-size: 1rem; color: var(--cp-text-muted); max-width: 680px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.25rem 0.65rem; border-radius: 2rem;
+      font-size: 0.75rem; font-weight: 500;
+      background: var(--cp-accent-soft); color: var(--cp-accent);
+      border: 1px solid rgba(177, 31, 75, 0.2);
+    }
+    html[data-theme="dark"] .badge {
+      border-color: rgba(253, 142, 161, 0.25);
+    }
+    .badge-neutral {
+      background: var(--cp-surface-soft); color: var(--cp-text-muted);
+      border: 1px solid var(--cp-border);
+    }
+
+    /* ── Stat bar ── */
+    .stat-bar {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 0.625rem; padding: 1.1rem 1.25rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 2rem; font-weight: 700; color: var(--cp-accent);
+      line-height: 1;
+    }
+    .stat-card .label {
+      font-size: 0.75rem; color: var(--cp-text-muted); margin-top: 0.3rem;
+      text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 2.25rem; }
+    .section-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--cp-text-muted);
+      margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--cp-border);
+    }
+
+    /* ── Architecture pipeline ── */
+    .pipeline {
+      display: flex; align-items: stretch; gap: 0;
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 0.625rem; overflow: hidden;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .pipeline-step {
+      flex: 1; padding: 1.25rem 1rem; text-align: center;
+      position: relative;
+    }
+    .pipeline-step + .pipeline-step::before {
+      content: '›';
+      position: absolute; left: -0.05rem; top: 50%; transform: translateY(-50%);
+      font-size: 1.4rem; color: var(--cp-border-strong); font-weight: 300;
+    }
+    .pipeline-step.active { background: var(--cp-accent-soft); }
+    .pipeline-icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .pipeline-name {
+      font-size: 0.8rem; font-weight: 700; color: var(--cp-text);
+      margin-bottom: 0.2rem;
+    }
+    .pipeline-step.active .pipeline-name { color: var(--cp-accent); }
+    .pipeline-desc {
+      font-size: 0.7rem; color: var(--cp-text-muted); line-height: 1.4;
+    }
+    .pipeline-notebook {
+      font-size: 0.65rem; font-family: Consolas, "Courier New", monospace;
+      color: var(--cp-text-soft); margin-top: 0.35rem;
+    }
+
+    /* ── Tables grid ── */
+    .tables-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .table-card {
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+      overflow: hidden; cursor: pointer; transition: border-color 0.15s;
+    }
+    .table-card:hover { border-color: var(--cp-accent); }
+    .table-card-header {
+      padding: 0.9rem 1rem 0.75rem;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
+      border-bottom: 1px solid var(--cp-border);
+    }
+    .table-name { font-size: 0.92rem; font-weight: 700; color: var(--cp-text); }
+    .table-type-badge {
+      font-size: 0.64rem; font-weight: 600; padding: 0.2rem 0.5rem;
+      border-radius: 1rem; white-space: nowrap; flex-shrink: 0;
+    }
+    .type-fact {
+      background: rgba(220,38,38,0.1); color: var(--cp-danger);
+      border: 1px solid rgba(220,38,38,0.25);
+    }
+    .type-dim {
+      background: rgba(22,163,74,0.1); color: var(--cp-success);
+      border: 1px solid rgba(22,163,74,0.25);
+    }
+    .type-bridge {
+      background: rgba(245,158,11,0.12); color: var(--cp-warning);
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+    html[data-theme="dark"] .type-fact { color: #f87171; background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.25); }
+    html[data-theme="dark"] .type-dim  { color: #4ade80; background: rgba(74,222,128,0.1);  border-color: rgba(74,222,128,0.25); }
+    html[data-theme="dark"] .type-bridge { color: #fbbf24; background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.28); }
+
+    .table-card-body { padding: 0.75rem 1rem 0.9rem; }
+    .table-desc { font-size: 0.78rem; color: var(--cp-text-muted); margin-bottom: 0.7rem; line-height: 1.5; }
+    .table-meta {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .table-meta-item {
+      font-size: 0.72rem; color: var(--cp-text-soft);
+      display: flex; align-items: center; gap: 0.25rem;
+    }
+    .table-meta-item strong { color: var(--cp-text); font-weight: 600; }
+
+    /* ── Columns expandable ── */
+    .columns-list {
+      display: none; border-top: 1px solid var(--cp-border);
+      padding: 0.75rem 1rem 0.9rem;
+    }
+    .columns-list.open { display: block; }
+    .col-row {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.28rem 0; border-bottom: 1px solid var(--cp-border);
+      font-size: 0.74rem;
+    }
+    .col-row:last-child { border-bottom: none; }
+    .col-name { font-weight: 600; color: var(--cp-text); min-width: 120px; }
+    .col-type { font-family: Consolas, "Courier New", monospace; font-size: 0.68rem; color: var(--cp-text-soft); min-width: 70px; }
+    .col-desc { color: var(--cp-text-muted); flex: 1; }
+    .col-hidden { font-size: 0.62rem; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); padding: 0.1rem 0.35rem; border-radius: 1rem; color: var(--cp-text-muted); }
+
+    .expand-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.72rem; color: var(--cp-link);
+      padding: 0.4rem 1rem 0.4rem;
+      display: block; width: 100%; text-align: left;
+    }
+    .expand-btn:hover { color: var(--cp-accent); }
+
+    /* ── Measures ── */
+    .measures-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 0.75rem;
+    }
+    .measure-card {
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 0.625rem; padding: 0.9rem 1rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .measure-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.4rem; gap: 0.5rem;
+    }
+    .measure-name { font-size: 0.88rem; font-weight: 700; color: var(--cp-text); }
+    .measure-folder {
+      font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 1rem;
+      background: var(--cp-accent-soft); color: var(--cp-accent);
+      border: 1px solid rgba(177,31,75,0.18); white-space: nowrap;
+    }
+    html[data-theme="dark"] .measure-folder { border-color: rgba(253,142,161,0.22); }
+    .measure-table { font-size: 0.7rem; color: var(--cp-text-soft); margin-bottom: 0.45rem; }
+    .measure-desc { font-size: 0.76rem; color: var(--cp-text-muted); margin-bottom: 0.5rem; line-height: 1.45; }
+    .measure-expr {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.71rem; color: var(--cp-text-muted);
+      background: var(--cp-surface-soft); border: 1px solid var(--cp-border);
+      border-radius: 0.375rem; padding: 0.4rem 0.6rem;
+    }
+    .measure-format {
+      font-size: 0.67rem; color: var(--cp-text-soft); margin-top: 0.35rem;
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    /* ── Relationships ── */
+    .rel-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem; overflow: hidden;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+      font-size: 0.8rem;
+    }
+    .rel-table thead tr {
+      background: var(--cp-surface-soft);
+      border-bottom: 1px solid var(--cp-border);
+    }
+    .rel-table th {
+      padding: 0.6rem 1rem; text-align: left; font-size: 0.68rem;
+      font-weight: 700; color: var(--cp-text-muted);
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .rel-table td {
+      padding: 0.55rem 1rem; border-bottom: 1px solid var(--cp-border);
+      color: var(--cp-text);
+    }
+    .rel-table tr:last-child td { border-bottom: none; }
+    .rel-table tr:hover td { background: var(--cp-highlight); }
+    .rel-from { color: var(--cp-danger); font-weight: 600; }
+    .rel-to { color: var(--cp-success); font-weight: 600; }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.85em;
+      background: var(--cp-surface-soft);
+      padding: 0.1em 0.35em; border-radius: 0.25rem;
+      border: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+    }
+
+    /* ── Tech stack ── */
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    .tech-card {
+      background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-radius: 0.625rem; padding: 0.9rem 1rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .tech-icon { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+    .tech-name { font-size: 0.82rem; font-weight: 700; color: var(--cp-text); margin-bottom: 0.15rem; }
+    .tech-desc { font-size: 0.71rem; color: var(--cp-text-muted); line-height: 1.4; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center; padding-top: 2rem;
+      font-size: 0.72rem; color: var(--cp-text-muted);
+      border-top: 1px solid var(--cp-border);
+    }
+
+    @media (max-width: 600px) {
+      .pipeline { flex-direction: column; }
+      .pipeline-step + .pipeline-step::before { content: '↓'; left: 50%; top: -0.6rem; transform: translateX(-50%); }
+      .hero h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+  <span id="theme-icon">☀️</span> <span id="theme-label">Light</span>
+</button>
+
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-eyebrow">Workspace Report · Fabric-PBI-Dev</div>
+    <h1><code>aw_gold</code> Semantic Model</h1>
+    <p class="hero-sub">
+      An enterprise-grade, AI-assisted AdventureWorks reseller sales analytics solution built on Microsoft Fabric —
+      from raw CSV files through a Medallion lakehouse to a Git-versioned Power BI semantic model on Direct Lake.
+    </p>
+    <div class="hero-meta">
+      <span class="badge">📊 Power BI Semantic Model</span>
+      <span class="badge">⚡ Direct Lake</span>
+      <span class="badge">🥇 Medallion Architecture</span>
+      <span class="badge-neutral badge">PBIP + TMDL</span>
+      <span class="badge-neutral badge">Git-versioned</span>
+      <span class="badge-neutral badge">en-US</span>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stat-bar">
+    <div class="stat-card"><div class="num">8</div><div class="label">Tables</div></div>
+    <div class="stat-card"><div class="num">53</div><div class="label">Columns</div></div>
+    <div class="stat-card"><div class="num">11</div><div class="label">Measures</div></div>
+    <div class="stat-card"><div class="num">9</div><div class="label">Relationships</div></div>
+    <div class="stat-card"><div class="num">3</div><div class="label">Hierarchies</div></div>
+    <div class="stat-card"><div class="num">3</div><div class="label">Notebooks</div></div>
+  </div>
+
+  <!-- ── ARCHITECTURE ── -->
+  <div class="section">
+    <div class="section-title">Medallion Pipeline</div>
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="pipeline-icon">📁</div>
+        <div class="pipeline-name">Source</div>
+        <div class="pipeline-desc">Tab-separated CSV files (Sales, Targets, Product, Reseller, Salesperson, Region, SalespersonRegion)</div>
+        <div class="pipeline-notebook">data/*.csv</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">🥉</div>
+        <div class="pipeline-name">Bronze</div>
+        <div class="pipeline-desc">Raw ingest into Delta tables. No transformations — preserves full source fidelity.</div>
+        <div class="pipeline-notebook">01_bronze_ingest</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">🥈</div>
+        <div class="pipeline-name">Silver</div>
+        <div class="pipeline-desc">Clean, conform, deduplicate and standardise types. Canonical entity definitions.</div>
+        <div class="pipeline-notebook">02_silver_transform</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">🥇</div>
+        <div class="pipeline-name">Gold</div>
+        <div class="pipeline-desc">Star schema: denormalised dimensions + fact tables with pre-computed profit columns.</div>
+        <div class="pipeline-notebook">03_gold_star_schema</div>
+      </div>
+      <div class="pipeline-step active">
+        <div class="pipeline-icon">📊</div>
+        <div class="pipeline-name">Semantic Model</div>
+        <div class="pipeline-desc">Direct Lake semantic model. Measures, hierarchies, relationships. This model.</div>
+        <div class="pipeline-notebook">aw_gold (Direct Lake)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TABLES ── -->
+  <div class="section">
+    <div class="section-title">Tables</div>
+    <div class="tables-grid" id="tables-grid"></div>
+  </div>
+
+  <!-- ── MEASURES ── -->
+  <div class="section">
+    <div class="section-title">Measures Catalog</div>
+    <div class="measures-grid" id="measures-grid"></div>
+  </div>
+
+  <!-- ── RELATIONSHIPS ── -->
+  <div class="section">
+    <div class="section-title">Relationships</div>
+    <table class="rel-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>From (Many)</th>
+          <th>To (One)</th>
+        </tr>
+      </thead>
+      <tbody id="rel-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- ── TECH STACK ── -->
+  <div class="section">
+    <div class="section-title">Tech Stack</div>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-icon">🏗️</div><div><div class="tech-name">Microsoft Fabric</div><div class="tech-desc">Unified analytics platform — Lakehouses, Notebooks, OneLake, Power BI.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">⚡</div><div><div class="tech-name">Direct Lake</div><div class="tech-desc">Reads Parquet/Delta directly from OneLake — no import, no DirectQuery overhead.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">📄</div><div><div class="tech-name">PBIP + TMDL</div><div class="tech-desc">Power BI project format with Tabular Model Definition Language for Git-diffable source control.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">🐍</div><div><div class="tech-name">PySpark</div><div class="tech-desc">Notebooks authored in VS Code via the Fabric Data Engineering extension. Bronze → Gold pipeline.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">🤖</div><div><div class="tech-name">GitHub Copilot</div><div class="tech-desc">AI-assisted authoring at every layer — notebooks, DAX measures, model documentation.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">🔌</div><div><div class="tech-name">Power BI Modeling MCP</div><div class="tech-desc">MCP server for agentic semantic model development — measures, relationships, documentation.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">🧰</div><div><div class="tech-name">Skills for Fabric</div><div class="tech-desc">VS Code skills for scaffolding workspaces, lakehouses, and notebooks with AI agents.</div></div></div>
+      <div class="tech-card"><div class="tech-icon">🔀</div><div><div class="tech-name">Git Integration</div><div class="tech-desc">Fabric workspace connected to GitHub (franciscobertao1995/Fabric-PBI-Dev). CI/CD ready.</div></div></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Generated from <strong>aw_gold</strong> semantic model &nbsp;·&nbsp;
+    Workspace <code>Fabric-PBI-Dev</code> &nbsp;·&nbsp;
+    Storage mode: Direct Lake &nbsp;·&nbsp;
+    2026-07-14
+  </div>
+
+</div>
+
+<script>
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute("data-theme") === "dark";
+  const next = isDark ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  document.getElementById("theme-icon").textContent = next === "dark" ? "🌙" : "☀️";
+  document.getElementById("theme-label").textContent = next === "dark" ? "Dark" : "Light";
+}
+(function initIcon() {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  document.getElementById("theme-icon").textContent = isDark ? "🌙" : "☀️";
+  document.getElementById("theme-label").textContent = isDark ? "Dark" : "Light";
+})();
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+const TABLES = [
+  {
+    name: "Sales",
+    type: "fact",
+    grain: "Sales order line",
+    source: "fact_sales",
+    desc: "One row per reseller sales order line. Pre-computed profit column (Sales − Cost) is materialised at the Gold layer. Connects to all four dimensions.",
+    cols: [
+      { name: "Sales Order Number", type: "string", hidden: false, desc: "Degenerate dimension (order identifier)." },
+      { name: "Order Date", type: "dateTime", hidden: true, desc: "FK → Date dimension." },
+      { name: "Product Key", type: "int64", hidden: true, desc: "FK → Product dimension." },
+      { name: "Reseller Key", type: "int64", hidden: true, desc: "FK → Reseller dimension." },
+      { name: "Employee Key", type: "int64", hidden: true, desc: "FK → Salesperson dimension." },
+      { name: "Sales Territory Key", type: "int64", hidden: true, desc: "FK → Region dimension." },
+      { name: "Quantity", type: "int64", hidden: true, desc: "Units sold on this line." },
+      { name: "Unit Price", type: "double", hidden: true, desc: "List price per unit at sale time." },
+      { name: "Sales Amount", type: "double", hidden: true, desc: "Total revenue for this line." },
+      { name: "Cost Amount", type: "double", hidden: true, desc: "Total COGS for this line." },
+      { name: "Profit Amount", type: "double", hidden: true, desc: "Pre-computed gross profit (Sales − Cost)." },
+    ]
+  },
+  {
+    name: "Targets",
+    type: "fact",
+    grain: "Salesperson × Month",
+    source: "fact_targets",
+    desc: "Monthly revenue target per salesperson. Links to Date via Target Month (first of month) and to Salesperson via Employee ID (natural key).",
+    cols: [
+      { name: "Employee ID", type: "int64", hidden: true, desc: "Natural HR employee ID — FK → Salesperson." },
+      { name: "Target Month", type: "dateTime", hidden: true, desc: "First day of the month — FK → Date." },
+      { name: "Target", type: "double", hidden: true, desc: "Monthly revenue target in dollars." },
+    ]
+  },
+  {
+    name: "Product",
+    type: "dim",
+    grain: "Product",
+    source: "dim_product",
+    desc: "One row per product. Three-level hierarchy: Category → Subcategory → Product. Color and standard cost for margin analysis. Includes formatting columns for KPI visuals.",
+    cols: [
+      { name: "Product Key", type: "int64", hidden: true, desc: "Surrogate PK / FK in Sales." },
+      { name: "Product", type: "string", hidden: false, desc: "Product name." },
+      { name: "Standard Cost", type: "double", hidden: false, desc: "List price cost basis." },
+      { name: "Color", type: "string", hidden: false, desc: "Product color." },
+      { name: "Subcategory", type: "string", hidden: false, desc: "Mid-level hierarchy." },
+      { name: "Category", type: "string", hidden: false, desc: "Top-level hierarchy." },
+      { name: "Background Color Format", type: "string", hidden: true, desc: "Hex background for KPI tiles." },
+      { name: "Font Color Format", type: "string", hidden: true, desc: "Hex font color for KPI tiles." },
+    ]
+  },
+  {
+    name: "Date",
+    type: "dim",
+    grain: "Calendar day",
+    source: "dim_date",
+    desc: "Contiguous daily calendar. Marked as the model's date table. Three-level hierarchy: Year → Quarter → Month. Month sorted by Month Number.",
+    cols: [
+      { name: "Date", type: "dateTime", hidden: false, desc: "PK — calendar date." },
+      { name: "Year", type: "int64", hidden: false, desc: "Calendar year number." },
+      { name: "Quarter", type: "int64", hidden: false, desc: "Quarter number (1–4)." },
+      { name: "Month Number", type: "int64", hidden: true, desc: "Month number (1–12) — sort key for Month." },
+      { name: "Month", type: "string", hidden: false, desc: "Full month name, sorted by Month Number." },
+      { name: "Year Month", type: "string", hidden: false, desc: "yyyy-MM formatted period." },
+    ]
+  },
+  {
+    name: "Region",
+    type: "dim",
+    grain: "Sales territory",
+    source: "dim_region",
+    desc: "One row per sales territory. Three-level hierarchy: Group → Country → Region. Country column has the Country data category for map visuals.",
+    cols: [
+      { name: "Sales Territory Key", type: "int64", hidden: true, desc: "Surrogate PK / FK in Sales & bridge." },
+      { name: "Region", type: "string", hidden: false, desc: "Territory name." },
+      { name: "Country", type: "string", hidden: false, desc: "Country (dataCategory: Country)." },
+      { name: "Group", type: "string", hidden: false, desc: "Geographic group (e.g. North America)." },
+    ]
+  },
+  {
+    name: "Reseller",
+    type: "dim",
+    grain: "Reseller",
+    source: "dim_reseller",
+    desc: "One row per reseller distributor. Geography hierarchy: Country Region → State Province → City. City, StateOrProvince and Country data categories enable map visuals.",
+    cols: [
+      { name: "Reseller Key", type: "int64", hidden: true, desc: "Surrogate PK / FK in Sales." },
+      { name: "Business Type", type: "string", hidden: false, desc: "Reseller type (e.g. Warehouse, VAR, Specialty)." },
+      { name: "Reseller", type: "string", hidden: false, desc: "Reseller name." },
+      { name: "City", type: "string", hidden: false, desc: "dataCategory: City." },
+      { name: "State Province", type: "string", hidden: false, desc: "dataCategory: StateOrProvince." },
+      { name: "Country Region", type: "string", hidden: false, desc: "dataCategory: Country." },
+    ]
+  },
+  {
+    name: "Salesperson",
+    type: "dim",
+    grain: "Salesperson",
+    source: "dim_salesperson",
+    desc: "One row per salesperson (employee). Dual keys: Employee Key (surrogate) links to Sales; Employee ID (natural HR key) links to Targets. UPN enables row-level security.",
+    cols: [
+      { name: "Employee Key", type: "int64", hidden: true, desc: "Surrogate PK / FK in Sales & bridge." },
+      { name: "Employee ID", type: "int64", hidden: true, desc: "Natural HR ID — FK in Targets." },
+      { name: "Salesperson", type: "string", hidden: false, desc: "Full name." },
+      { name: "Title", type: "string", hidden: false, desc: "Job title." },
+      { name: "UPN", type: "string", hidden: false, desc: "User principal name — enables RLS." },
+    ]
+  },
+  {
+    name: "Salesperson Region",
+    type: "bridge",
+    grain: "Salesperson × Territory",
+    source: "bridge_salesperson_region",
+    desc: "Many-to-many bridge between Salesperson and Region. Resolves the fact that one salesperson can cover multiple territories and one territory can have multiple salespeople.",
+    cols: [
+      { name: "Employee Key", type: "int64", hidden: true, desc: "FK → Salesperson." },
+      { name: "Sales Territory Key", type: "int64", hidden: true, desc: "FK → Region." },
+    ]
+  },
+];
+
+const MEASURES = [
+  { name: "Total Sales", table: "Sales", folder: "Sales", desc: "Total revenue from reseller sales in the filter context.", expr: "SUM('Sales'[Sales Amount])", fmt: "$#,##0.00" },
+  { name: "Total Cost", table: "Sales", folder: "Sales", desc: "Total cost of goods sold in the filter context.", expr: "SUM('Sales'[Cost Amount])", fmt: "$#,##0.00" },
+  { name: "Total Profit", table: "Sales", folder: "Profitability", desc: "Total gross profit: SUM of the pre-computed Profit Amount column.", expr: "SUM('Sales'[Profit Amount])", fmt: "$#,##0.00" },
+  { name: "Profit Margin %", table: "Sales", folder: "Profitability", desc: "Gross profit as a % of revenue. Returns blank when sales is zero.", expr: "DIVIDE([Total Profit], [Total Sales])", fmt: "0.00%" },
+  { name: "Total Quantity", table: "Sales", folder: "Sales", desc: "Total units sold across all order lines in the filter context.", expr: "SUM('Sales'[Quantity])", fmt: "#,##0" },
+  { name: "Order Count", table: "Sales", folder: "Counts", desc: "Number of distinct sales orders in the filter context.", expr: "DISTINCTCOUNT('Sales'[Sales Order Number])", fmt: "#,##0" },
+  { name: "Total Target", table: "Targets", folder: "Targets", desc: "Total assigned sales target across all salesperson-month combinations.", expr: "SUM('Targets'[Target])", fmt: "$#,##0.00" },
+  { name: "Product Count", table: "Product", folder: "Counts", desc: "Number of distinct products in the filter context.", expr: "DISTINCTCOUNT('Product'[Product Key])", fmt: "#,##0" },
+  { name: "Region Count", table: "Region", folder: "Counts", desc: "Number of distinct sales territories in the filter context.", expr: "DISTINCTCOUNT('Region'[Sales Territory Key])", fmt: "#,##0" },
+  { name: "Reseller Count", table: "Reseller", folder: "Counts", desc: "Number of distinct resellers in the filter context.", expr: "DISTINCTCOUNT('Reseller'[Reseller Key])", fmt: "#,##0" },
+  { name: "Salesperson Count", table: "Salesperson", folder: "Counts", desc: "Number of distinct salespeople in the filter context.", expr: "DISTINCTCOUNT('Salesperson'[Employee Key])", fmt: "#,##0" },
+];
+
+const RELATIONSHIPS = [
+  { name: "Sales_Date", from: "Sales[Order Date]", to: "Date[Date]" },
+  { name: "Sales_Product", from: "Sales[Product Key]", to: "Product[Product Key]" },
+  { name: "Sales_Reseller", from: "Sales[Reseller Key]", to: "Reseller[Reseller Key]" },
+  { name: "Sales_Salesperson", from: "Sales[Employee Key]", to: "Salesperson[Employee Key]" },
+  { name: "Sales_Region", from: "Sales[Sales Territory Key]", to: "Region[Sales Territory Key]" },
+  { name: "Targets_Date", from: "Targets[Target Month]", to: "Date[Date]" },
+  { name: "Targets_Salesperson", from: "Targets[Employee ID]", to: "Salesperson[Employee ID]" },
+  { name: "SalespersonRegion_Salesperson", from: "Salesperson Region[Employee Key]", to: "Salesperson[Employee Key]" },
+  { name: "SalespersonRegion_Region", from: "Salesperson Region[Sales Territory Key]", to: "Region[Sales Territory Key]" },
+];
+
+// ── Render tables ─────────────────────────────────────────────────────────────
+const grid = document.getElementById("tables-grid");
+TABLES.forEach((t, ti) => {
+  const typeLabel = { fact: "Fact", dim: "Dimension", bridge: "Bridge" }[t.type];
+  const typeCls = { fact: "type-fact", dim: "type-dim", bridge: "type-bridge" }[t.type];
+  const visibleCols = t.cols.filter(c => !c.hidden).length;
+  const hiddenCols = t.cols.filter(c => c.hidden).length;
+  const colsHtml = t.cols.map(c => `
+    <div class="col-row">
+      <span class="col-name">${c.name}</span>
+      <span class="col-type">${c.type}</span>
+      ${c.hidden ? '<span class="col-hidden">hidden</span>' : ''}
+      <span class="col-desc">${c.desc}</span>
+    </div>`).join("");
+  const card = document.createElement("div");
+  card.className = "table-card";
+  card.innerHTML = `
+    <div class="table-card-header">
+      <div class="table-name">${t.name}</div>
+      <span class="table-type-badge ${typeCls}">${typeLabel}</span>
+    </div>
+    <div class="table-card-body">
+      <div class="table-desc">${t.desc}</div>
+      <div class="table-meta">
+        <div class="table-meta-item"><strong>${t.cols.length}</strong>&nbsp;columns&nbsp;(${visibleCols} visible, ${hiddenCols} hidden)</div>
+        <div class="table-meta-item">Grain:&nbsp;<strong>${t.grain}</strong></div>
+        <div class="table-meta-item">Source:&nbsp;<code>${t.source}</code></div>
+      </div>
+    </div>
+    <button class="expand-btn" onclick="toggleCols(${ti})">▶ Show columns</button>
+    <div class="columns-list" id="cols-${ti}">${colsHtml}</div>
+  `;
+  grid.appendChild(card);
+});
+
+function toggleCols(i) {
+  const list = document.getElementById(`cols-${i}`);
+  const btn = list.previousElementSibling;
+  const open = list.classList.toggle("open");
+  btn.textContent = open ? "▼ Hide columns" : "▶ Show columns";
+}
+
+// ── Render measures ───────────────────────────────────────────────────────────
+const mgrid = document.getElementById("measures-grid");
+MEASURES.forEach(m => {
+  const card = document.createElement("div");
+  card.className = "measure-card";
+  card.innerHTML = `
+    <div class="measure-header">
+      <span class="measure-name">${m.name}</span>
+      <span class="measure-folder">${m.folder}</span>
+    </div>
+    <div class="measure-table">📊 ${m.table}</div>
+    <div class="measure-desc">${m.desc}</div>
+    <div class="measure-expr">${m.expr}</div>
+    <div class="measure-format">Format: ${m.fmt}</div>
+  `;
+  mgrid.appendChild(card);
+});
+
+// ── Render relationships ──────────────────────────────────────────────────────
+const tbody = document.getElementById("rel-tbody");
+RELATIONSHIPS.forEach((r, i) => {
+  const [fromTable, fromCol] = r.from.split("[");
+  const [toTable, toCol] = r.to.split("[");
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${i + 1}</td>
+    <td><code>${r.name}</code></td>
+    <td><span class="rel-from">${fromTable}</span>[${fromCol}</td>
+    <td><span class="rel-to">${toTable}</span>[${toCol}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
