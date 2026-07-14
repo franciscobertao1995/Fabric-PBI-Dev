@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "tablePerformance",
-  "position": { "x": 620, "y": 160, "z": 5, "width": 640, "height": 540 },
+  "position": {
+    "x": 620,
+    "y": 160,
+    "z": 5,
+    "width": 640,
+    "height": 540
+  },
   "visual": {
     "visualType": "tableEx",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Salesperson" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Salesperson"
+                    }
+                  },
                   "Property": "Salesperson"
                 }
               },
@@ -20,7 +30,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Sales"
                 }
               },
@@ -29,7 +43,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Targets" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Targets"
+                    }
+                  },
                   "Property": "Total Target"
                 }
               },
@@ -38,7 +56,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Profit"
                 }
               },
@@ -47,7 +69,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Profit Margin %"
                 }
               },
@@ -56,7 +82,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Order Count"
                 }
               },
@@ -70,7 +100,11 @@
           {
             "field": {
               "Measure": {
-                "Expression": { "SourceRef": { "Entity": "Sales" } },
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
                 "Property": "Total Sales"
               }
             },
@@ -84,8 +118,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Performance by Salesperson'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Performance by Salesperson'"
+                }
+              }
+            }
           }
         }
       ]

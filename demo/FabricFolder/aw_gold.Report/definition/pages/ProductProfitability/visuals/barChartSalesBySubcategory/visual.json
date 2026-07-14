@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "barChartSalesBySubcategory",
-  "position": { "x": 840, "y": 20, "z": 3, "width": 420, "height": 330 },
+  "position": {
+    "x": 840,
+    "y": 20,
+    "z": 3,
+    "width": 420,
+    "height": 330
+  },
   "visual": {
     "visualType": "clusteredBarChart",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Product" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
                   "Property": "Subcategory"
                 }
               },
@@ -24,7 +34,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Sales"
                 }
               },
@@ -38,7 +52,11 @@
           {
             "field": {
               "Measure": {
-                "Expression": { "SourceRef": { "Entity": "Sales" } },
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
                 "Property": "Total Sales"
               }
             },
@@ -52,8 +70,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Sales by Subcategory'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales by Subcategory'"
+                }
+              }
+            }
           }
         }
       ]

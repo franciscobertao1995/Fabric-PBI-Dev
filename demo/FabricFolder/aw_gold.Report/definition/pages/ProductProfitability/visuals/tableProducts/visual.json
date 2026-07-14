@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "tableProducts",
-  "position": { "x": 20, "y": 370, "z": 4, "width": 1240, "height": 330 },
+  "position": {
+    "x": 20,
+    "y": 370,
+    "z": 4,
+    "width": 1240,
+    "height": 330
+  },
   "visual": {
     "visualType": "tableEx",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Product" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
                   "Property": "Category"
                 }
               },
@@ -20,7 +30,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Product" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
                   "Property": "Subcategory"
                 }
               },
@@ -29,7 +43,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Quantity"
                 }
               },
@@ -38,7 +56,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Sales"
                 }
               },
@@ -47,7 +69,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Cost"
                 }
               },
@@ -56,7 +82,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Profit"
                 }
               },
@@ -65,7 +95,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Profit Margin %"
                 }
               },
@@ -79,7 +113,11 @@
           {
             "field": {
               "Measure": {
-                "Expression": { "SourceRef": { "Entity": "Sales" } },
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
                 "Property": "Total Sales"
               }
             },
@@ -93,8 +131,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Sales Detail by Category & Subcategory'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales Detail by Category & Subcategory'"
+                }
+              }
+            }
           }
         }
       ]

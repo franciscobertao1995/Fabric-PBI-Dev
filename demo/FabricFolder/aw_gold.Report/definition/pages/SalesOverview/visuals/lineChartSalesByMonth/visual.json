@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "lineChartSalesByMonth",
-  "position": { "x": 20, "y": 160, "z": 5, "width": 780, "height": 540 },
+  "position": {
+    "x": 20,
+    "y": 160,
+    "z": 5,
+    "width": 780,
+    "height": 540
+  },
   "visual": {
     "visualType": "lineChart",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Date" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
                   "Property": "Year Month"
                 }
               },
@@ -24,7 +34,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Sales"
                 }
               },
@@ -33,7 +47,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Cost"
                 }
               },
@@ -47,7 +65,11 @@
           {
             "field": {
               "Column": {
-                "Expression": { "SourceRef": { "Entity": "Date" } },
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Date"
+                  }
+                },
                 "Property": "Year Month"
               }
             },
@@ -61,8 +83,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Sales & Cost Trend by Month'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales & Cost Trend by Month'"
+                }
+              }
+            }
           }
         }
       ]

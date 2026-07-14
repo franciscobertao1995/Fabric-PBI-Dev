@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "cardProfitMargin",
-  "position": { "x": 640, "y": 20, "z": 3, "width": 290, "height": 120 },
+  "position": {
+    "x": 640,
+    "y": 20,
+    "z": 3,
+    "width": 290,
+    "height": 120
+  },
   "visual": {
     "visualType": "card",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Profit Margin %"
                 }
               },
@@ -25,8 +35,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Profit Margin %'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Profit Margin %'"
+                }
+              }
+            }
           }
         }
       ]

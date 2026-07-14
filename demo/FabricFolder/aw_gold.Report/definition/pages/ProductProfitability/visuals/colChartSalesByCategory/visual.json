@@ -1,7 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "colChartSalesByCategory",
-  "position": { "x": 20, "y": 20, "z": 1, "width": 390, "height": 330 },
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 1,
+    "width": 390,
+    "height": 330
+  },
   "visual": {
     "visualType": "clusteredColumnChart",
     "query": {
@@ -11,7 +17,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "Product" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
                   "Property": "Category"
                 }
               },
@@ -24,7 +34,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Sales"
                 }
               },
@@ -33,7 +47,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "Sales" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
                   "Property": "Total Profit"
                 }
               },
@@ -47,7 +65,11 @@
           {
             "field": {
               "Measure": {
-                "Expression": { "SourceRef": { "Entity": "Sales" } },
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
                 "Property": "Total Sales"
               }
             },
@@ -61,8 +83,20 @@
       "title": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "text": { "expr": { "Literal": { "Value": "'Sales & Profit by Category'" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales & Profit by Category'"
+                }
+              }
+            }
           }
         }
       ]
