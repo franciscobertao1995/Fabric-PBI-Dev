@@ -14,13 +14,33 @@
       "general": [
         {
           "properties": {
-            "paragraphs": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[{\"textRuns\":[{\"value\":\"Pages\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"13pt\",\"color\":{\"solid\":{\"color\":\"#FFFFFF\"}}}}],\"horizontalTextAlignment\":\"center\"},{\"textRuns\":[{\"value\":\"Sales Overview  ·  Product & Profitability  ·  Salesperson Performance\",\"textStyle\":{\"fontSize\":\"12pt\",\"color\":{\"solid\":{\"color\":\"#7EB4E0\"}}}}],\"horizontalTextAlignment\":\"center\"}]'"
-                }
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Pages",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "13pt",
+                      "color": "#FFFFFF"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Sales Overview  |  Product & Profitability  |  Salesperson Performance",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#7EB4E0"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
               }
-            }
+            ]
           }
         }
       ]

@@ -14,13 +14,20 @@
       "general": [
         {
           "properties": {
-            "paragraphs": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[{\"textRuns\":[{\"value\":\"This report provides a comprehensive view of reseller sales performance across products, regions, and salespeople. Data is sourced from the aw_gold Direct Lake semantic model — built on a Bronze → Silver → Gold medallion pipeline.\",\"textStyle\":{\"fontSize\":\"13pt\",\"color\":{\"solid\":{\"color\":\"#B0C8E8\"}}}}],\"horizontalTextAlignment\":\"center\"}]'"
-                }
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This report provides a comprehensive view of reseller sales performance across products, regions, and salespeople. Data is sourced from the aw_gold Direct Lake semantic model, built on a Bronze to Gold medallion pipeline.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#B0C8E8"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
               }
-            }
+            ]
           }
         }
       ]

@@ -14,13 +14,34 @@
       "general": [
         {
           "properties": {
-            "paragraphs": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[{\"textRuns\":[{\"value\":\"aw_gold\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"60pt\",\"color\":{\"solid\":{\"color\":\"#FFFFFF\"}}}}],\"horizontalTextAlignment\":\"center\"},{\"textRuns\":[{\"value\":\"Adventure Works Reseller Sales\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"28pt\",\"color\":{\"solid\":{\"color\":\"#7EB4E0\"}}}}],\"horizontalTextAlignment\":\"center\"}]'"
-                }
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "aw_gold",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "60pt",
+                      "color": "#FFFFFF"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Adventure Works Reseller Sales",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "28pt",
+                      "color": "#7EB4E0"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
               }
-            }
+            ]
           }
         }
       ]

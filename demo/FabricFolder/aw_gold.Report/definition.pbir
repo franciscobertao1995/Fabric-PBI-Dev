@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
   "version": "4.0",
   "datasetReference": {
-    "byPath": {
-      "path": "../aw_gold.SemanticModel"
+    "byConnection": {
+      "connectionString": "Data Source=powerbi://api.powerbi.com/v1.0/myorg/Fabric-PBI-Dev;initial catalog=aw_gold;integrated security=ClaimsToken;semanticmodelid=9b1bccd5-24d6-433b-ae25-96a71345340f"
     }
   }
 }
