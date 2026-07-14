@@ -179,3 +179,16 @@ for file_name, table_name in files_to_ingest:
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+df = spark.read.format("csv").option("header","true").load("abfss://f6894d78-6eeb-4014-a9ec-3e75ebe36ee8@onelake.dfs.fabric.microsoft.com/dc10a228-9c78-4cc2-895e-028cdfe33367/Files/raw/Sales.csv")
+# df now is a Spark DataFrame containing CSV data from "abfss://f6894d78-6eeb-4014-a9ec-3e75ebe36ee8@onelake.dfs.fabric.microsoft.com/dc10a228-9c78-4cc2-895e-028cdfe33367/Files/raw/Sales.csv".
+display(df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
