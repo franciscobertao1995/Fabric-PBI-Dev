@@ -1,0 +1,57 @@
+table dim_salesperson
+	lineageTag: 57c71269-9382-471e-9d1e-d915a04573f4
+	sourceLineageTag: [dbo].[dim_salesperson]
+
+	column employee_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fedd549b-cf16-438e-926d-c8c7a88ae40f
+		sourceLineageTag: employee_key
+		summarizeBy: sum
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4653c1e3-342b-4537-9ad7-b2881b4691a8
+		sourceLineageTag: employee_id
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column salesperson
+		dataType: string
+		lineageTag: 3ec4dd99-cf7e-4fd1-a77c-3fd9ff180e75
+		sourceLineageTag: salesperson
+		summarizeBy: none
+		sourceColumn: salesperson
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 5a71521f-a25a-44e9-a2a7-13038603d582
+		sourceLineageTag: title
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column upn
+		dataType: string
+		lineageTag: 40809c53-d798-4ba3-abc1-f12af720c158
+		sourceLineageTag: upn
+		summarizeBy: none
+		sourceColumn: upn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_salesperson = entity
+		mode: directLake
+		source
+			entityName: dim_salesperson
+			expressionSource: 'DirectLake - aw_gold'
+

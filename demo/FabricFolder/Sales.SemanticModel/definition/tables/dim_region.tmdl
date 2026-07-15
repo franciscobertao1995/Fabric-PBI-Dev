@@ -1,0 +1,47 @@
+table dim_region
+	lineageTag: 25538c03-8da6-4fe4-ba33-b85b747442c9
+	sourceLineageTag: [dbo].[dim_region]
+
+	column salesterritory_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 43974d8e-e353-4203-935d-98daced90b00
+		sourceLineageTag: salesterritory_key
+		summarizeBy: sum
+		sourceColumn: salesterritory_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 4f934e52-c8cd-46db-a1b8-a73e8059bb82
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: b9afdb83-f5fc-4600-8b1f-038f4227d442
+		sourceLineageTag: country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column group
+		dataType: string
+		lineageTag: 32eb1322-bb65-471e-b46e-619526a6ac64
+		sourceLineageTag: group
+		summarizeBy: none
+		sourceColumn: group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_region = entity
+		mode: directLake
+		source
+			entityName: dim_region
+			expressionSource: 'DirectLake - aw_gold'
+

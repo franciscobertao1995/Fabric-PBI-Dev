@@ -1,0 +1,65 @@
+table dim_reseller
+	lineageTag: 9c2b9331-298f-4373-9ae1-386be183e0e1
+	sourceLineageTag: [dbo].[dim_reseller]
+
+	column reseller_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3876ad7b-d164-4211-b117-117f8f7b62d1
+		sourceLineageTag: reseller_key
+		summarizeBy: sum
+		sourceColumn: reseller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 77061e31-a1ad-4ce6-a64f-aa8df9e809b3
+		sourceLineageTag: business_type
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column reseller
+		dataType: string
+		lineageTag: 59bdb785-e5fc-427b-b206-0c4f576f4f1a
+		sourceLineageTag: reseller
+		summarizeBy: none
+		sourceColumn: reseller
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 6bc354b6-2e58-4aec-8a64-cd32ca01feee
+		sourceLineageTag: city
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_province
+		dataType: string
+		lineageTag: a25cfc4c-5290-4dfe-9dfb-e47d11e1b30e
+		sourceLineageTag: state_province
+		summarizeBy: none
+		sourceColumn: state_province
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_region
+		dataType: string
+		lineageTag: 88615d23-f191-47d2-b94a-626406bfe053
+		sourceLineageTag: country_region
+		summarizeBy: none
+		sourceColumn: country_region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_reseller = entity
+		mode: directLake
+		source
+			entityName: dim_reseller
+			expressionSource: 'DirectLake - aw_gold'
+

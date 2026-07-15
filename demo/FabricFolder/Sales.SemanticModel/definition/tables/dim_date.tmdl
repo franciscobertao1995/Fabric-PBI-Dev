@@ -1,0 +1,68 @@
+table dim_date
+	lineageTag: 299ac9b3-5f33-440b-bb78-5d43b60cb637
+	sourceLineageTag: [dbo].[dim_date]
+
+	column date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0a587597-5e95-44c4-a329-cfe4a1feb525
+		sourceLineageTag: date
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e918360-aecf-4388-9115-e80c35f16f7a
+		sourceLineageTag: year
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bafaa7a-8d40-41e5-b6da-bd8511723853
+		sourceLineageTag: quarter
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ed06c16-4829-4896-92b4-4301a0466d9d
+		sourceLineageTag: month
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 7457505b-f9af-44ef-a16f-ca4521b1873c
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 8bd8f884-ec74-4ac2-8dd5-3efb7df67d21
+		sourceLineageTag: year_month
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			expressionSource: 'DirectLake - aw_gold'
+

@@ -1,0 +1,41 @@
+table fact_targets
+	lineageTag: 8d3e48e0-826a-47c9-a1f3-e83ef002964d
+	sourceLineageTag: [dbo].[fact_targets]
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 70fad0d5-e34d-406b-97df-5c2eb0c37417
+		sourceLineageTag: employee_id
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_month
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4f610c73-0aac-4a14-aa14-a5cae78dbd69
+		sourceLineageTag: target_month
+		summarizeBy: none
+		sourceColumn: target_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column target
+		dataType: double
+		lineageTag: b686727d-8cb1-4011-95dc-bc7f7b9287e2
+		sourceLineageTag: target
+		summarizeBy: sum
+		sourceColumn: target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_targets = entity
+		mode: directLake
+		source
+			entityName: fact_targets
+			expressionSource: 'DirectLake - aw_gold'
+

@@ -1,0 +1,123 @@
+table fact_sales
+	lineageTag: 2f3fc034-c932-4dd1-9a7d-e2fe50e3b0d6
+	sourceLineageTag: [dbo].[fact_sales]
+
+	column sales_order_number
+		dataType: string
+		lineageTag: e8097e11-02a5-4050-ad23-1dd21ef1d003
+		sourceLineageTag: sales_order_number
+		summarizeBy: none
+		sourceColumn: sales_order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 51d61442-5448-455b-b1af-79b3892257ca
+		sourceLineageTag: order_date
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 601652a4-c17c-47e1-9d8c-229130ec109c
+		sourceLineageTag: product_key
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column reseller_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 89d4e675-ca1e-4079-88ac-98c815b64753
+		sourceLineageTag: reseller_key
+		summarizeBy: sum
+		sourceColumn: reseller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f9e8b5a4-5d0e-46bb-a13a-6488aef148ea
+		sourceLineageTag: employee_key
+		summarizeBy: sum
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column salesterritory_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 45a9586d-03ad-4ce4-801e-431aa41724f0
+		sourceLineageTag: salesterritory_key
+		summarizeBy: sum
+		sourceColumn: salesterritory_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b082ede-809e-4fcb-ac98-a2cace087b82
+		sourceLineageTag: quantity
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 0d042cbf-0f49-4f87-8b80-22f88062efff
+		sourceLineageTag: unit_price
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sales
+		dataType: double
+		lineageTag: 88ebb69b-e898-4777-86b9-f65170ad1808
+		sourceLineageTag: sales
+		summarizeBy: sum
+		sourceColumn: sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cost
+		dataType: double
+		lineageTag: b9185c0e-0e01-4433-aa95-68007a60a381
+		sourceLineageTag: cost
+		summarizeBy: sum
+		sourceColumn: cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit
+		dataType: double
+		lineageTag: acf656b5-b943-4300-be0b-574952965b64
+		sourceLineageTag: profit
+		summarizeBy: sum
+		sourceColumn: profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_sales = entity
+		mode: directLake
+		source
+			entityName: fact_sales
+			expressionSource: 'DirectLake - aw_gold'
+
