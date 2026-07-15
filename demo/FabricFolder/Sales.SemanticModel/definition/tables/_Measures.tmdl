@@ -1,0 +1,80 @@
+table _Measures
+	lineageTag: 9a7f3e1d-4b2c-4f8a-9e06-5c3d7e8f9a0b
+	isHidden
+
+	measure 'Total Sales' = SUM(fact_sales[sales])
+		formatString: $#,##0;-$#,##0;$#,##0
+		lineageTag: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Cost' = SUM(fact_sales[cost])
+		formatString: $#,##0;-$#,##0;$#,##0
+		lineageTag: b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Profit' = SUM(fact_sales[profit])
+		formatString: $#,##0;-$#,##0;$#,##0
+		lineageTag: c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a
+
+	measure 'Total Quantity' = SUM(fact_sales[quantity])
+		formatString: #,##0
+		lineageTag: e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b
+
+	measure 'Order Count' = DISTINCTCOUNT(fact_sales[sales_order_number])
+		formatString: #,##0
+		lineageTag: f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c
+
+	measure 'Total Target' = SUM(fact_targets[target])
+		formatString: $#,##0;-$#,##0;$#,##0
+		lineageTag: a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Sales vs Target' = [Total Sales] - [Total Target]
+		formatString: $#,##0;-$#,##0;$#,##0
+		lineageTag: b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Target Attainment %' = 
+		DIVIDE(
+		    [Total Sales],
+		    [Total Target],
+		    BLANK()
+		)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f
+
+	measure 'Product Count' = DISTINCTCOUNT(dim_product[product_key])
+		formatString: #,##0
+		lineageTag: d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a
+
+	measure 'Region Count' = DISTINCTCOUNT(dim_region[salesterritory_key])
+		formatString: #,##0
+		lineageTag: e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b
+
+	measure 'Reseller Count' = DISTINCTCOUNT(dim_reseller[reseller_key])
+		formatString: #,##0
+		lineageTag: f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c
+
+	measure 'Salesperson Count' = DISTINCTCOUNT(dim_salesperson[employee_key])
+		formatString: #,##0
+		lineageTag: a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+

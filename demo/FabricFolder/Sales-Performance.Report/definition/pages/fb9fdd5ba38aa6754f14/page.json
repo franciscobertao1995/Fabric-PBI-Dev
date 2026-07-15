@@ -4,5 +4,167 @@
   "displayName": "Cover",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "background": {
+    "color": "#FFFFFF",
+    "transparency": 0
+  },
+  "visualContainers": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "width": 1280,
+      "height": 720,
+      "config": {
+        "name": "background-rectangle",
+        "singleVisual": {
+          "visualType": "shape",
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "type": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'rectangle'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "line": [
+              {
+                "properties": {
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "fill": [
+              {
+                "properties": {
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "true"
+                      }
+                    }
+                  },
+                  "fillColor": {
+                    "solid": {
+                      "color": {
+                        "expr": {
+                          "Literal": {
+                            "Value": "'#0078D4'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "transparency": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "0L"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "x": 100,
+      "y": 200,
+      "z": 1,
+      "width": 1080,
+      "height": 100,
+      "config": {
+        "name": "title-textbox",
+        "singleVisual": {
+          "visualType": "textbox",
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "paragraphs": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'[{\"textRuns\":[{\"value\":\"SALES PERFORMANCE REPORT\",\"textStyle\":{\"fontFamily\":\"Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif\",\"fontSize\":\"48px\",\"fontWeight\":\"bold\"}}],\"horizontalAlignment\":\"center\"}]'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "x": 100,
+      "y": 320,
+      "z": 2,
+      "width": 1080,
+      "height": 60,
+      "config": {
+        "name": "subtitle-textbox",
+        "singleVisual": {
+          "visualType": "textbox",
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "paragraphs": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'[{\"textRuns\":[{\"value\":\"AdventureWorks Reseller Sales Analytics\",\"textStyle\":{\"fontFamily\":\"Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif\",\"fontSize\":\"24px\",\"fontWeight\":\"normal\",\"fontStyle\":\"italic\"}}],\"horizontalAlignment\":\"center\"}]'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "x": 200,
+      "y": 430,
+      "z": 3,
+      "width": 880,
+      "height": 200,
+      "config": {
+        "name": "context-textbox",
+        "singleVisual": {
+          "visualType": "textbox",
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "paragraphs": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'[{\"textRuns\":[{\"value\":\"This report provides comprehensive sales performance insights for the AdventureWorks reseller channel. The data model follows a medallion architecture (Bronze → Silver → Gold) with a star schema design optimized for Direct Lake analytics on Microsoft Fabric.\\n\\nKey Features:\\n• Sales vs Target tracking with attainment metrics\\n• Profit margin and profitability analysis\\n• Regional performance breakdown\\n• Product and salesperson insights\\n• Interactive drill-down: Region → Product → Salesperson\",\"textStyle\":{\"fontFamily\":\"Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif\",\"fontSize\":\"14px\",\"fontWeight\":\"normal\"}}],\"horizontalAlignment\":\"center\"}]'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
 }
