@@ -1,8 +1,11 @@
 table dim_date
+	dataCategory: time
 	lineageTag: 299ac9b3-5f33-440b-bb78-5d43b60cb637
 	sourceLineageTag: [dbo].[dim_date]
 
 	column date
+		isKey
+		isAvailableInMDX: false
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 0a587597-5e95-44c4-a329-cfe4a1feb525
@@ -46,6 +49,7 @@ table dim_date
 		dataType: string
 		lineageTag: 7457505b-f9af-44ef-a16f-ca4521b1873c
 		sourceLineageTag: month_name
+		sortByColumn: month
 		summarizeBy: none
 		sourceColumn: month_name
 
