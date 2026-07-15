@@ -1,0 +1,35 @@
+relationship 3f1a7c02-9b64-4e1a-8d21-1a0f7c4e5b01
+	fromColumn: fact_sales.order_date
+	toColumn: dim_date.date
+
+relationship 8c22d5e7-4a3b-4f19-9c07-2b1e6d3f4a02
+	fromColumn: fact_sales.product_key
+	toColumn: dim_product.product_key
+
+relationship a4d9e1b3-6c72-4d58-8e14-3c2f7a5b6c03
+	fromColumn: fact_sales.reseller_key
+	toColumn: dim_reseller.reseller_key
+
+relationship b7e0f2c4-5d83-4a69-9f25-4d3a8b6c7d04
+	fromColumn: fact_sales.employee_key
+	toColumn: dim_salesperson.employee_key
+
+relationship c9f1a3d5-6e94-4b7a-8036-5e4b9c7d8e05
+	fromColumn: fact_sales.salesterritory_key
+	toColumn: dim_region.salesterritory_key
+
+relationship d2a3b4e6-7f05-4c8b-9147-6f5c0d8e9f06
+	fromColumn: fact_targets.target_month
+	toColumn: dim_date.date
+
+relationship e5b4c6f8-8016-4d9c-a258-7061e9f0a107
+	fromColumn: fact_targets.employee_id
+	toColumn: dim_salesperson.employee_id
+
+relationship f8c5d7a9-9127-4e0d-b369-81720a01b208
+	fromColumn: bridge_salesperson_region.employee_key
+	toColumn: dim_salesperson.employee_key
+
+relationship a1d6e8b0-0238-4f1e-c470-92831b12c309
+	fromColumn: bridge_salesperson_region.salesterritory_key
+	toColumn: dim_region.salesterritory_key
