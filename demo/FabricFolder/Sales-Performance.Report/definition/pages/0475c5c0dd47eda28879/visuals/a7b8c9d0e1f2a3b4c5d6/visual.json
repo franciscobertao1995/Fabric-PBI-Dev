@@ -23,11 +23,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Target Attainment %"
+                  "Property": "Sales vs Target"
                 }
               },
-              "queryRef": "_Measures.Target Attainment %",
-              "nativeQueryRef": "Target Attainment %"
+              "queryRef": "_Measures.Sales vs Target",
+              "nativeQueryRef": "Sales vs Target"
             }
           ]
         }
@@ -47,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Target Attainment'"
+                  "Value": "'Sales vs Target'"
                 }
               }
             }
