@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "pageSubtitle",
+  "position": {
+    "x": 20,
+    "y": 58,
+    "z": 0,
+    "width": 1000,
+    "height": 26,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Key measures from the aw_gold model, sliced by category, year, region, reseller and salesperson.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#5A6B7B",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
