@@ -62,4 +62,5 @@ table 'Reseller'
 		mode: directLake
 		source
 			entityName: dim_reseller
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

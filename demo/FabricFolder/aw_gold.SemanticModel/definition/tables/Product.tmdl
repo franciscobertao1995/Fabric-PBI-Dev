@@ -73,4 +73,5 @@ table 'Product'
 		mode: directLake
 		source
 			entityName: dim_product
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

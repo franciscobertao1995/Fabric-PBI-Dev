@@ -48,4 +48,5 @@ table 'Region'
 		mode: directLake
 		source
 			entityName: dim_region
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

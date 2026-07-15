@@ -21,4 +21,5 @@ table 'Salesperson Region'
 		mode: directLake
 		source
 			entityName: bridge_salesperson_region
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

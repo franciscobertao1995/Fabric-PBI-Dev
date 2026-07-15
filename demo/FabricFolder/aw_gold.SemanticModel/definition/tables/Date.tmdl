@@ -59,4 +59,5 @@ table 'Date'
 		mode: directLake
 		source
 			entityName: dim_date
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

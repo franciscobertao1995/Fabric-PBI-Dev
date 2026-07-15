@@ -117,4 +117,5 @@ table 'Sales'
 		mode: directLake
 		source
 			entityName: fact_sales
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'

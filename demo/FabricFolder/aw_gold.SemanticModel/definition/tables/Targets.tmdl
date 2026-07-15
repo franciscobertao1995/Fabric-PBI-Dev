@@ -33,4 +33,5 @@ table 'Targets'
 		mode: directLake
 		source
 			entityName: fact_targets
+			schemaName: dbo
 			expressionSource: 'DirectLake - aw_gold'
