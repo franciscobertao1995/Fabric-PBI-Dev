@@ -1,8 +1,10 @@
 table dim_product
+	description: "Product dimension table containing product details, categories, and pricing information"
 	lineageTag: 5b1e0d5a-1a04-427e-b534-7bfec3ae09ba
 	sourceLineageTag: [dbo].[dim_product]
 
 	column product_key
+		description: "Unique identifier for each product"
 		dataType: int64
 		formatString: 0
 		lineageTag: 1d36e313-007e-4732-8f1d-d082fa3acf89
@@ -13,6 +15,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column product
+		description: "Product name"
 		dataType: string
 		lineageTag: bb321e56-56af-4997-81f3-11928e2909b9
 		sourceLineageTag: product
@@ -22,6 +25,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column standard_cost
+		description: "Standard cost of the product"
 		dataType: double
 		lineageTag: e9dfd075-a963-4386-a34f-7e46bcc4fd41
 		sourceLineageTag: standard_cost
@@ -33,6 +37,7 @@ table dim_product
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column color
+		description: "Product color"
 		dataType: string
 		lineageTag: 4b4d30f5-928c-4d03-962d-cab6c8f1a4af
 		sourceLineageTag: color
@@ -42,6 +47,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column subcategory
+		description: "Product subcategory"
 		dataType: string
 		lineageTag: e47cac4e-5326-46e0-bb43-9928f64c822f
 		sourceLineageTag: subcategory
@@ -51,6 +57,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column category
+		description: "Product category"
 		dataType: string
 		lineageTag: 0a60b528-65b7-46e2-bccc-dfff4e548f65
 		sourceLineageTag: category
@@ -60,6 +67,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column background_color_format
+		description: "Background color formatting for visualizations"
 		dataType: string
 		lineageTag: f89ed44a-8c28-41cc-9670-316ac3515097
 		sourceLineageTag: background_color_format
@@ -69,6 +77,7 @@ table dim_product
 		annotation SummarizationSetBy = Automatic
 
 	column font_color_format
+		description: "Font color formatting for visualizations"
 		dataType: string
 		lineageTag: 31f264a5-8bca-48b2-9f17-b9789a8e0718
 		sourceLineageTag: font_color_format

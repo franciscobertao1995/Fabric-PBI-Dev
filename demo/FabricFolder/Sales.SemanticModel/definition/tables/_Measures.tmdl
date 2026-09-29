@@ -2,83 +2,83 @@ table _Measures
 	lineageTag: 9a7f3e1d-4b2c-4f8a-9e06-5c3d7e8f9a0b
 	isHidden
 
+	/// Total sales amount summed across all reseller transactions.
 	measure 'Total Sales' = SUM(fact_sales[sales])
-		description: "Total revenue from all sales transactions"
 		formatString: $#,##0;-$#,##0;$#,##0
 		lineageTag: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	/// Total cost of goods sold summed across all reseller transactions.
 	measure 'Total Cost' = SUM(fact_sales[cost])
-		description: "Total cost of goods sold across all transactions"
 		formatString: $#,##0;-$#,##0;$#,##0
 		lineageTag: b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	/// Total profit (sales minus cost) summed across all reseller transactions.
 	measure 'Total Profit' = SUM(fact_sales[profit])
-		description: "Total profit (sales minus cost) across all transactions"
 		formatString: $#,##0;-$#,##0;$#,##0
 		lineageTag: c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	/// Profit as a percentage of total sales (Total Profit divided by Total Sales).
 	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales], 0)
-		description: "Profit as a percentage of sales revenue, calculated as Total Profit divided by Total Sales"
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a
 
+	/// Total number of units sold across all reseller transactions.
 	measure 'Total Quantity' = SUM(fact_sales[quantity])
-		description: "Total number of units sold across all transactions"
 		formatString: #,##0
 		lineageTag: e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b
 
+	/// Count of distinct sales orders based on the sales order number.
 	measure 'Order Count' = DISTINCTCOUNT(fact_sales[sales_order_number])
-		description: "Count of unique sales orders"
 		formatString: #,##0
 		lineageTag: f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c
 
+	/// Total sales target amount summed across all target records.
 	measure 'Total Target' = SUM(fact_targets[target])
-		description: "Total sales target amount for performance comparison"
 		formatString: $#,##0;-$#,##0;$#,##0
 		lineageTag: a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	/// Variance between actual sales and target (Total Sales minus Total Target).
 	measure 'Sales vs Target' = [Total Sales] - [Total Target]
-		description: "Variance between actual sales and target, showing over/under performance"
 		formatString: $#,##0;-$#,##0;$#,##0
 		lineageTag: b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	/// Percentage of the sales target achieved (Total Sales divided by Total Target).
 	measure 'Target Attainment %' = 
 		DIVIDE(
 		    [Total Sales],
 		    [Total Target],
 		    BLANK()
 		)
-		description: "Percentage of target achieved, calculated as Total Sales divided by Total Target"
 		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f
 
+	/// Count of distinct products based on the product key.
 	measure 'Product Count' = DISTINCTCOUNT(dim_product[product_key])
-		description: "Count of unique products in the current filter context"
 		formatString: #,##0
 		lineageTag: d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a
 
+	/// Count of distinct sales regions based on the sales territory key.
 	measure 'Region Count' = DISTINCTCOUNT(dim_region[salesterritory_key])
-		description: "Count of unique sales territories/regions in the current filter context"
 		formatString: #,##0
 		lineageTag: e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b
 
+	/// Count of distinct resellers based on the reseller key.
 	measure 'Reseller Count' = DISTINCTCOUNT(dim_reseller[reseller_key])
-		description: "Count of unique resellers in the current filter context"
 		formatString: #,##0
 		lineageTag: f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c
 
+	/// Count of distinct salespeople based on the employee key.
 	measure 'Salesperson Count' = DISTINCTCOUNT(dim_salesperson[employee_key])
-		description: "Count of unique salespeople in the current filter context"
 		formatString: #,##0
 		lineageTag: a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d
 

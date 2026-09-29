@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rayfin Sales Pulse</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; }
+    button, select, input { font: inherit; }
+    button, select { border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text); border-radius: .625rem; }
+    button { cursor: pointer; min-height: 36px; padding: 0 12px; }
+    button:hover { border-color: var(--cp-accent); }
+    button:focus-visible, select:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 2px; }
+    .shell { max-width: 1600px; margin: auto; padding: 24px; }
+    header { display: flex; align-items: center; gap: 20px; justify-content: space-between; margin-bottom: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+    .brand-mark { width: 38px; height: 38px; border-radius: .625rem; background: var(--cp-accent); color: var(--cp-accent-fg); display: grid; place-items: center; font-weight: 800; }
+    h1 { font-size: 22px; line-height: 1.15; margin: 0; letter-spacing: 0; }
+    .subtitle { color: var(--cp-text-muted); font-size: 12px; margin-top: 3px; }
+    .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter { display: grid; gap: 4px; }
+    .filter label { color: var(--cp-text-muted); font-size: 11px; font-weight: 650; text-transform: uppercase; }
+    select { height: 36px; padding: 0 32px 0 10px; min-width: 125px; }
+    .icon-button { width: 36px; padding: 0; font-size: 18px; }
+    .active-filter { display: none; align-items: center; gap: 8px; padding: 7px 10px; background: var(--cp-accent-soft); border: 1px solid var(--cp-accent); border-radius: .625rem; font-size: 12px; }
+    .active-filter.show { display: flex; }
+    .active-filter button { min-height: 22px; width: 22px; padding: 0; border: 0; background: transparent; }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .card, .panel { background: var(--cp-surface); border: 1px solid var(--cp-border); box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); }
+    .card { border-radius: 16px; padding: 18px; min-height: 122px; position: relative; overflow: hidden; }
+    .card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--cp-accent); }
+    .kpi-label { color: var(--cp-text-muted); font-size: 12px; font-weight: 650; }
+    .kpi-value { font-size: clamp(24px, 2.4vw, 38px); font-weight: 720; margin: 9px 0 5px; white-space: nowrap; }
+    .kpi-foot { display: flex; justify-content: space-between; gap: 8px; color: var(--cp-text-soft); font-size: 11px; }
+    .positive { color: var(--cp-success); }
+    .negative { color: var(--cp-danger); }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(320px, .7fr); gap: 12px; }
+    .panel { border-radius: 16px; min-width: 0; overflow: hidden; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 8px; gap: 12px; }
+    .panel h2 { margin: 0; font-size: 15px; letter-spacing: 0; }
+    .panel-meta { color: var(--cp-text-muted); font-size: 11px; }
+    .chart { min-height: 260px; padding: 4px 12px 12px; }
+    .trend { grid-column: 1 / -1; }
+    .trend .chart { height: 310px; }
+    svg { width: 100%; height: 100%; overflow: visible; }
+    .grid-line { stroke: var(--cp-border); stroke-width: 1; }
+    .axis-label { fill: var(--cp-text-muted); font-size: 10px; }
+    .sales-line { fill: none; stroke: var(--cp-accent); stroke-width: 3; }
+    .target-line { fill: none; stroke: var(--cp-warning); stroke-width: 2; stroke-dasharray: 6 5; }
+    .sales-dot { fill: var(--cp-accent); }
+    .legend { display: flex; gap: 14px; color: var(--cp-text-muted); font-size: 11px; }
+    .legend span::before { content: ""; width: 9px; height: 9px; display: inline-block; margin-right: 5px; border-radius: 50%; background: var(--cp-accent); }
+    .legend .target::before { background: var(--cp-warning); }
+    .bar-list { display: grid; gap: 11px; padding: 8px 18px 18px; }
+    .bar-row { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(90px, 2fr) auto; gap: 10px; align-items: center; border: 0; min-height: auto; padding: 0; border-radius: 0; text-align: left; background: transparent; }
+    .bar-row:hover .bar-fill { background: var(--cp-accent-hover); }
+    .bar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+    .bar-track { height: 9px; background: var(--cp-surface-soft); border-radius: .625rem; overflow: hidden; }
+    .bar-fill { display: block; height: 100%; background: var(--cp-accent); border-radius: .625rem; }
+    .bar-value { font: 11px Consolas, "Courier New", Courier, monospace; color: var(--cp-text-muted); }
+    .table-panel { grid-column: 1 / -1; }
+    .tabs { display: flex; gap: 4px; }
+    .tab { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; min-height: 30px; padding: 0 8px; color: var(--cp-text-muted); }
+    .tab.active { color: var(--cp-accent); border-bottom-color: var(--cp-accent); }
+    .table-wrap { overflow: auto; max-height: 360px; border-top: 1px solid var(--cp-border); }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { position: sticky; top: 0; z-index: 1; text-align: left; background: var(--cp-bg-elevated); color: var(--cp-text-muted); font-weight: 650; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--cp-border); white-space: nowrap; }
+    td.numeric, th.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+    tbody tr:hover { background: var(--cp-accent-soft); }
+    .rank { color: var(--cp-text-muted); width: 36px; }
+    .empty { display: grid; place-items: center; min-height: 180px; color: var(--cp-text-muted); }
+    footer { color: var(--cp-text-muted); font-size: 11px; display: flex; justify-content: space-between; padding: 14px 2px 0; gap: 12px; }
+    .loading { position: fixed; inset: 0; background: var(--cp-overlay); display: grid; place-items: center; z-index: 10; font-weight: 650; }
+    @media (max-width: 980px) { .kpis { grid-template-columns: repeat(2, 1fr); } .layout { grid-template-columns: 1fr; } .trend, .table-panel { grid-column: 1; } header { align-items: flex-start; } }
+    @media (max-width: 680px) { .shell { padding: 14px; } header { display: grid; } .toolbar { justify-content: flex-start; } .filters { display: grid; grid-template-columns: 1fr 1fr; width: 100%; } select { width: 100%; min-width: 0; } .kpis { grid-template-columns: 1fr; } .kpi-value { font-size: 30px; } .trend .chart { height: 250px; } .bar-row { grid-template-columns: minmax(90px, 1fr) minmax(70px, 1.5fr) auto; } footer { display: grid; } }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">Preparing sales pulse...</div>
+  <main class="shell">
+    <header>
+      <div class="brand"><div class="brand-mark">R</div><div><h1>Sales Pulse</h1><div class="subtitle">Rayfin reporting experience</div></div></div>
+      <div class="toolbar">
+        <div class="filters">
+          <div class="filter"><label for="year">Year</label><select id="year"></select></div>
+          <div class="filter"><label for="region">Region</label><select id="region"></select></div>
+          <div class="filter"><label for="category">Category</label><select id="category"></select></div>
+          <div class="filter"><label for="person">Salesperson</label><select id="person"></select></div>
+        </div>
+        <button class="icon-button" id="reset" title="Reset filters" aria-label="Reset filters">&#8635;</button>
+        <button class="icon-button" id="export" title="Export current view" aria-label="Export current view">&#8681;</button>
+        <button class="icon-button" id="theme" title="Toggle theme" aria-label="Toggle theme">&#9681;</button>
+      </div>
+    </header>
+    <div class="active-filter" id="product-filter"><span></span><button title="Clear product filter" aria-label="Clear product filter">&times;</button></div>
+    <section class="kpis" id="kpis"></section>
+    <section class="layout">
+      <article class="panel trend"><div class="panel-head"><div><h2>Sales trajectory</h2><div class="panel-meta" id="trend-meta"></div></div><div class="legend"><span>Sales</span><span class="target">Target</span></div></div><div class="chart" id="trend"></div></article>
+      <article class="panel"><div class="panel-head"><div><h2>Regional performance</h2><div class="panel-meta">Select a region to cross-filter</div></div></div><div id="regions"></div></article>
+      <article class="panel"><div class="panel-head"><div><h2>Product leaders</h2><div class="panel-meta">Top products by revenue</div></div></div><div id="products"></div></article>
+      <article class="panel table-panel"><div class="panel-head"><div><h2>Performance detail</h2><div class="panel-meta" id="detail-meta"></div></div><div class="tabs"><button class="tab active" data-tab="people">Salespeople</button><button class="tab" data-tab="orders">Transactions</button></div></div><div class="table-wrap" id="detail"></div></article>
+    </section>
+    <footer><span id="status"></span><span>Adventure Works demo data &middot; Direct browser analytics</span></footer>
+  </main>
+  <script>/*__RAYFIN_DATA__*/</script>
+  <script>
+    const data = window.RAYFIN_DATA;
+    const state = { year: "all", region: "all", category: "all", person: "all", product: "all", tab: "people" };
+    const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 });
+    const moneyFull = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    const number = new Intl.NumberFormat("en-US");
+    const percent = new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 1 });
+    const monthLabel = new Intl.DateTimeFormat("en-US", { month: "short", year: "2-digit", timeZone: "UTC" });
+
+    function options(id, values, label) {
+      const select = document.getElementById(id);
+      select.innerHTML = `<option value="all">All ${label}</option>` + values.map(([value, text]) => `<option value="${value}">${text}</option>`).join("");
+      select.addEventListener("change", () => { state[id] = select.value; render(); });
+    }
+
+    const years = [...new Set(data.sales.map(row => row[0].slice(0, 4)))].sort();
+    const categories = [...new Set(data.products.map(row => row[2]))].sort();
+    options("year", years.map(value => [value, value]), "years");
+    options("region", data.regions.map((row, index) => [index, row[0]]), "regions");
+    options("category", categories.map(value => [value, value]), "categories");
+    options("person", data.people.map((row, index) => [index, row[0]]).sort((a, b) => a[1].localeCompare(b[1])), "salespeople");
+
+    function matches(row) {
+      const product = data.products[row[1]];
+      return (state.year === "all" || row[0].startsWith(state.year)) &&
+        (state.region === "all" || row[2] === +state.region) &&
+        (state.category === "all" || product[2] === state.category) &&
+        (state.person === "all" || row[3] === +state.person) &&
+        (state.product === "all" || row[1] === +state.product);
+    }
+
+    function targetMatches(row) {
+      if (state.year !== "all" && !row[0].startsWith(state.year)) return false;
+      if (state.person !== "all" && row[1] !== +state.person) return false;
+      if (state.region !== "all") {
+        const assigned = [].concat(data.personRegions[String(row[1])] || []);
+        if (!assigned.includes(+state.region)) return false;
+      }
+      return true;
+    }
+
+    function summarize(rows) {
+      let sales = 0, cost = 0, quantity = 0;
+      const orders = new Set();
+      for (const row of rows) { sales += row[4]; cost += row[5]; quantity += row[6]; orders.add(row[7]); }
+      return { sales, cost, profit: sales - cost, quantity, orders: orders.size };
+    }
+
+    function delta(current, previous) {
+      if (!previous) return { text: "New", className: "positive" };
+      const value = (current - previous) / Math.abs(previous);
+      return { text: `${value >= 0 ? "+" : ""}${percent.format(value)} YoY`, className: value >= 0 ? "positive" : "negative" };
+    }
+
+    function renderKpis(rows, targets) {
+      const totals = summarize(rows);
+      const target = targets.reduce((sum, row) => sum + row[2], 0);
+      let previousRows = [];
+      if (state.year !== "all") {
+        const previousYear = String(+state.year - 1);
+        previousRows = data.sales.filter(row => {
+          const product = data.products[row[1]];
+          return row[0].startsWith(previousYear) && (state.region === "all" || row[2] === +state.region) &&
+            (state.category === "all" || product[2] === state.category) && (state.person === "all" || row[3] === +state.person) &&
+            (state.product === "all" || row[1] === +state.product);
+        });
+      }
+      const previous = summarize(previousRows);
+      const items = [
+        ["Total sales", money.format(totals.sales), delta(totals.sales, previous.sales), `${number.format(totals.orders)} orders`],
+        ["Total profit", money.format(totals.profit), delta(totals.profit, previous.profit), `${number.format(totals.quantity)} units`],
+        ["Profit margin", totals.sales ? percent.format(totals.profit / totals.sales) : "0%", delta(totals.sales ? totals.profit / totals.sales : 0, previous.sales ? previous.profit / previous.sales : 0), "Sales less cost"],
+        ["Sales vs target", money.format(totals.sales - target), { text: target ? `${percent.format(totals.sales / target)} attained` : "No target", className: totals.sales >= target ? "positive" : "negative" }, money.format(target) + " target"]
+      ];
+      document.getElementById("kpis").innerHTML = items.map(([label, value, change, foot]) => `<article class="card"><div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-foot"><span class="${change.className}">${change.text}</span><span>${foot}</span></div></article>`).join("");
+    }
+
+    function renderTrend(rows, targets) {
+      const months = new Map();
+      for (const row of rows) { const key = row[0].slice(0, 7); if (!months.has(key)) months.set(key, { sales: 0, target: 0 }); months.get(key).sales += row[4]; }
+      for (const row of targets) { if (!months.has(row[0])) months.set(row[0], { sales: 0, target: 0 }); months.get(row[0]).target += row[2]; }
+      const points = [...months.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+      document.getElementById("trend-meta").textContent = `${points.length} months in current view`;
+      if (!points.length) { document.getElementById("trend").innerHTML = '<div class="empty">No trend data for this selection</div>'; return; }
+      const width = 1000, height = 250, left = 64, right = 18, top = 16, bottom = 34;
+      const max = Math.max(...points.flatMap(([, value]) => [value.sales, value.target]), 1);
+      const x = index => left + index * ((width - left - right) / Math.max(points.length - 1, 1));
+      const y = value => top + (height - top - bottom) * (1 - value / max);
+      const path = key => points.map(([, value], index) => `${index ? "L" : "M"}${x(index).toFixed(1)},${y(value[key]).toFixed(1)}`).join(" ");
+      const grid = [0, .25, .5, .75, 1].map(value => `<line class="grid-line" x1="${left}" y1="${y(max * value)}" x2="${width - right}" y2="${y(max * value)}"/><text class="axis-label" x="${left - 8}" y="${y(max * value) + 3}" text-anchor="end">${money.format(max * value)}</text>`).join("");
+      const labels = points.map(([key], index) => index % Math.max(1, Math.ceil(points.length / 8)) === 0 ? `<text class="axis-label" x="${x(index)}" y="${height - 9}" text-anchor="middle">${monthLabel.format(new Date(key + "-01T00:00:00Z"))}</text>` : "").join("");
+      const dots = points.map(([, value], index) => `<circle class="sales-dot" cx="${x(index)}" cy="${y(value.sales)}" r="3"><title>${moneyFull.format(value.sales)}</title></circle>`).join("");
+      document.getElementById("trend").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monthly sales and target trend">${grid}<path class="target-line" d="${path("target")}"/><path class="sales-line" d="${path("sales")}"/>${dots}${labels}</svg>`;
+    }
+
+    function group(rows, index) {
+      const values = new Map();
+      for (const row of rows) values.set(row[index], (values.get(row[index]) || 0) + row[4]);
+      return [...values.entries()].sort((a, b) => b[1] - a[1]);
+    }
+
+    function renderBars(id, values, labelFor, onClick, limit = 8) {
+      const shown = values.slice(0, limit), max = shown[0]?.[1] || 1;
+      document.getElementById(id).innerHTML = shown.length ? `<div class="bar-list">${shown.map(([key, value]) => `<button class="bar-row" data-key="${key}" title="Filter by ${labelFor(key)}"><span class="bar-label">${labelFor(key)}</span><span class="bar-track"><span class="bar-fill" style="width:${Math.max(2, value / max * 100)}%"></span></span><span class="bar-value">${money.format(value)}</span></button>`).join("")}</div>` : '<div class="empty">No data for this selection</div>';
+      document.querySelectorAll(`#${id} .bar-row`).forEach(button => button.addEventListener("click", () => onClick(button.dataset.key)));
+    }
+
+    function renderDetail(rows) {
+      const detail = document.getElementById("detail");
+      if (state.tab === "orders") {
+        const recent = [...rows].sort((a, b) => b[0].localeCompare(a[0])).slice(0, 100);
+        detail.innerHTML = `<table><thead><tr><th>Date</th><th>Order</th><th>Product</th><th>Region</th><th>Salesperson</th><th class="numeric">Qty</th><th class="numeric">Sales</th><th class="numeric">Profit</th></tr></thead><tbody>${recent.map(row => `<tr><td>${row[0]}</td><td>${row[7]}</td><td>${data.products[row[1]][0]}</td><td>${data.regions[row[2]][0]}</td><td>${data.people[row[3]][0]}</td><td class="numeric">${number.format(row[6])}</td><td class="numeric">${moneyFull.format(row[4])}</td><td class="numeric ${row[4] - row[5] >= 0 ? "positive" : "negative"}">${moneyFull.format(row[4] - row[5])}</td></tr>`).join("")}</tbody></table>`;
+        document.getElementById("detail-meta").textContent = `Latest ${recent.length} of ${number.format(rows.length)} transactions`;
+        return;
+      }
+      const grouped = new Map();
+      for (const row of rows) { const item = grouped.get(row[3]) || { sales: 0, profit: 0, orders: new Set() }; item.sales += row[4]; item.profit += row[4] - row[5]; item.orders.add(row[7]); grouped.set(row[3], item); }
+      const ranked = [...grouped.entries()].sort((a, b) => b[1].sales - a[1].sales);
+      detail.innerHTML = `<table><thead><tr><th class="rank">#</th><th>Salesperson</th><th>Title</th><th class="numeric">Orders</th><th class="numeric">Sales</th><th class="numeric">Profit</th><th class="numeric">Margin</th></tr></thead><tbody>${ranked.map(([key, value], index) => `<tr><td class="rank">${index + 1}</td><td>${data.people[key][0]}</td><td>${data.people[key][1]}</td><td class="numeric">${number.format(value.orders.size)}</td><td class="numeric">${moneyFull.format(value.sales)}</td><td class="numeric ${value.profit >= 0 ? "positive" : "negative"}">${moneyFull.format(value.profit)}</td><td class="numeric">${value.sales ? percent.format(value.profit / value.sales) : "0%"}</td></tr>`).join("")}</tbody></table>`;
+      document.getElementById("detail-meta").textContent = `${ranked.length} salespeople ranked by revenue`;
+    }
+
+    function render() {
+      const rows = data.sales.filter(matches);
+      const targets = data.targets.filter(targetMatches);
+      renderKpis(rows, targets);
+      renderTrend(rows, targets);
+      renderBars("regions", group(rows, 2), key => data.regions[key][0], key => { state.region = key; document.getElementById("region").value = key; render(); });
+      renderBars("products", group(rows, 1), key => data.products[key][0], key => { state.product = key; render(); });
+      renderDetail(rows);
+      const badge = document.getElementById("product-filter");
+      badge.classList.toggle("show", state.product !== "all");
+      badge.querySelector("span").textContent = state.product === "all" ? "" : `Product: ${data.products[state.product][0]}`;
+      document.getElementById("status").textContent = `${number.format(rows.length)} rows · refreshed ${new Date(data.generatedAt).toLocaleString()}`;
+    }
+
+    document.getElementById("product-filter").querySelector("button").addEventListener("click", () => { state.product = "all"; render(); });
+    document.getElementById("reset").addEventListener("click", () => { for (const key of ["year", "region", "category", "person"]) { state[key] = "all"; document.getElementById(key).value = "all"; } state.product = "all"; render(); });
+    document.getElementById("theme").addEventListener("click", () => { document.documentElement.dataset.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; });
+    document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => { state.tab = tab.dataset.tab; document.querySelectorAll(".tab").forEach(item => item.classList.toggle("active", item === tab)); render(); }));
+    document.getElementById("export").addEventListener("click", () => {
+      const rows = data.sales.filter(matches);
+      const header = ["Date", "Order", "Product", "Category", "Region", "Salesperson", "Quantity", "Sales", "Cost", "Profit"];
+      const csv = [header, ...rows.map(row => [row[0], row[7], data.products[row[1]][0], data.products[row[1]][2], data.regions[row[2]][0], data.people[row[3]][0], row[6], row[4], row[5], row[4] - row[5]])].map(values => values.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
+      const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); link.download = "rayfin-sales-view.csv"; link.click(); URL.revokeObjectURL(link.href);
+    });
+    render();
+    document.getElementById("loading").remove();
+  </script>
+</body>
+</html>

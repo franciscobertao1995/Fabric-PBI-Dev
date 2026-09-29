@@ -1,8 +1,10 @@
 table bridge_salesperson_region
+	description: "Bridge table connecting salespeople to their assigned sales territories (many-to-many relationship)"
 	lineageTag: a71e73da-38ed-4e74-b28a-c1dfe17590ce
 	sourceLineageTag: [dbo].[bridge_salesperson_region]
 
 	column employee_key
+		description: "Foreign key to dim_salesperson"
 		dataType: int64
 		formatString: 0
 		lineageTag: f1745d7a-72e3-4825-9396-813a69d42049
@@ -13,6 +15,7 @@ table bridge_salesperson_region
 		annotation SummarizationSetBy = Automatic
 
 	column salesterritory_key
+		description: "Foreign key to dim_region"
 		dataType: int64
 		formatString: 0
 		lineageTag: 6a26c9e2-2e01-415a-bbc5-99ced945f163

@@ -1,0 +1,22 @@
+id: rayfin-sales-pulse
+name: rayfin-sales-pulse
+version: 1.0.11
+services:
+  auth:
+    enabled: true
+    fabric:
+      enabled: true
+    allowedRedirectUris:
+      - http://localhost:5173
+      - http://127.0.0.1:5173
+      - https://royal-echo-8011439e25-swedencentral.webapp.fabricapps.net
+  data:
+    enabled: false
+  staticHosting:
+    enabled: true
+    folder: dist
+    indexDocument: index.html
+  storage:
+    enabled: false
+  functions:
+    enabled: false

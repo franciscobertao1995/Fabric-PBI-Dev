@@ -1,8 +1,10 @@
 table dim_salesperson
+	description: "Salesperson dimension table containing employee details and credentials"
 	lineageTag: 57c71269-9382-471e-9d1e-d915a04573f4
 	sourceLineageTag: [dbo].[dim_salesperson]
 
 	column employee_key
+		description: "Unique identifier for each employee/salesperson (surrogate key)"
 		dataType: int64
 		formatString: 0
 		lineageTag: fedd549b-cf16-438e-926d-c8c7a88ae40f
@@ -13,6 +15,7 @@ table dim_salesperson
 		annotation SummarizationSetBy = Automatic
 
 	column employee_id
+		description: "Employee ID number (business key)"
 		dataType: int64
 		formatString: 0
 		lineageTag: 4653c1e3-342b-4537-9ad7-b2881b4691a8
@@ -23,6 +26,7 @@ table dim_salesperson
 		annotation SummarizationSetBy = Automatic
 
 	column salesperson
+		description: "Salesperson full name"
 		dataType: string
 		lineageTag: 3ec4dd99-cf7e-4fd1-a77c-3fd9ff180e75
 		sourceLineageTag: salesperson
@@ -32,6 +36,7 @@ table dim_salesperson
 		annotation SummarizationSetBy = Automatic
 
 	column title
+		description: "Job title"
 		dataType: string
 		lineageTag: 5a71521f-a25a-44e9-a2a7-13038603d582
 		sourceLineageTag: title
@@ -41,6 +46,7 @@ table dim_salesperson
 		annotation SummarizationSetBy = Automatic
 
 	column upn
+		description: "User principal name (email address)"
 		dataType: string
 		lineageTag: 40809c53-d798-4ba3-abc1-f12af720c158
 		sourceLineageTag: upn

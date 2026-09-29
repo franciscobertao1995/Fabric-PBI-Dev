@@ -1,8 +1,10 @@
 table dim_reseller
+	description: "Reseller dimension table containing business details and location information"
 	lineageTag: 9c2b9331-298f-4373-9ae1-386be183e0e1
 	sourceLineageTag: [dbo].[dim_reseller]
 
 	column reseller_key
+		description: "Unique identifier for each reseller"
 		dataType: int64
 		formatString: 0
 		lineageTag: 3876ad7b-d164-4211-b117-117f8f7b62d1
@@ -13,6 +15,7 @@ table dim_reseller
 		annotation SummarizationSetBy = Automatic
 
 	column business_type
+		description: "Type of reseller business"
 		dataType: string
 		lineageTag: 77061e31-a1ad-4ce6-a64f-aa8df9e809b3
 		sourceLineageTag: business_type
@@ -22,6 +25,7 @@ table dim_reseller
 		annotation SummarizationSetBy = Automatic
 
 	column reseller
+		description: "Reseller name"
 		dataType: string
 		lineageTag: 59bdb785-e5fc-427b-b206-0c4f576f4f1a
 		sourceLineageTag: reseller
@@ -31,6 +35,7 @@ table dim_reseller
 		annotation SummarizationSetBy = Automatic
 
 	column city
+		description: "Reseller city location"
 		dataType: string
 		lineageTag: 6bc354b6-2e58-4aec-8a64-cd32ca01feee
 		sourceLineageTag: city
@@ -40,6 +45,7 @@ table dim_reseller
 		annotation SummarizationSetBy = Automatic
 
 	column state_province
+		description: "State or province of reseller location"
 		dataType: string
 		lineageTag: a25cfc4c-5290-4dfe-9dfb-e47d11e1b30e
 		sourceLineageTag: state_province
@@ -49,6 +55,7 @@ table dim_reseller
 		annotation SummarizationSetBy = Automatic
 
 	column country_region
+		description: "Country or region of reseller location"
 		dataType: string
 		lineageTag: 88615d23-f191-47d2-b94a-626406bfe053
 		sourceLineageTag: country_region
